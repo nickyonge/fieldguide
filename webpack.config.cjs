@@ -1,10 +1,10 @@
 /* WEBPACK TEMPLATE SETUP 
- * webpack.config.js 
  * webpack.config.cjs
+ * webpack.config.js 
  * 
  * All the steps for getting a new webpack-based website started via VS Code! 
  * 
- * This script itself is a file called webpack.config.js and is used to tell Webpack how to build your site.
+ * This script itself is a file called webpack.config.cjs and is used to tell Webpack how to build your site.
  * Start with the prerequisites below! 
  * 
  * NOTE: The filename either webpack.config.js or .cjs at your discretion. Details at end of guide. 
@@ -23,7 +23,7 @@
  * 
  *  --- SHORT SUMMARY --- 
  * 
- * Once prereqs are fulfilled, and this file (webpack.config.js) is placed in a new directory: 
+ * Once prereqs are fulfilled, and this file (webpack.config.cjs) is placed in a new directory: 
  * 
  * 1: Run the following three terminal commands:         (use Ctrl + ` / Cmd + ` to open the terminal)
         npm init -y
@@ -91,7 +91,7 @@
  * A NOTE ON .JS vs .CJS EXTENSION (webpack.config.cjs) 
     Using .cjs tells the compiler to use the CommonJS module system, the original standard for Node.js. 
     This means the compiler will NOT spend any time looking for more modern modules, eg ECMAScript (ES). 
- *  This guide is written referencing "webpack.config.js" for simplicity, but using ".cjs" is suggested.
+ *  This guide is written referencing "webpack.config.cjs", which is the encouraged format to use.
     It's suggested both because explicit naming is encouraged, and to bypass VSCode sugugestions.
     Using "cjs" simply disables a VSCode Intellisense suggestion on they keyword "require", such as 
         const path = require('path');
@@ -112,7 +112,7 @@
 // done? consider deleting the above tutorial section, or moving it to the end of this file.
 // you may end up modifying webpack config quite a bit! Might as well have the content up top.
 
-// More info about webpack.config.js in the reference: https://webpack.js.org/configuration/
+// More info about webpack.config.js, see the config docs: https://webpack.js.org/configuration/
 
 
 
