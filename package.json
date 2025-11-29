@@ -1,0 +1,28 @@
+{
+    "name": "@nickyonge/fieldguide",
+    "version": "0.1.0",
+    "description": "Digital content for the Duck Pond Field Guide art project",
+    "main": "src/index.js",
+    "scripts": {
+        "typecheck": "tsc -p .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "duckpond",
+        "art"
+    ],
+    "homepage": "https://github.com/nickyonge/fieldguide#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nickyonge/fieldguide.git"
+    },
+    "bugs": {
+        "url": "https://github.com/nickyonge/fieldguide/issues"
+    },
+    "author": "Nick Yonge <nick@duckpond.studio> (https://github.com/nickyonge)",
+    "license": "GPL-3.0-only",
+    "type": "module",
+    "devDependencies": {
+        "typescript": "^5.9.3"
+    }
+}
