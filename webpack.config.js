@@ -90,79 +90,133 @@
 
 // https://webpack.js.org/configuration/
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');      // const reference to webpack's html plugin
-const path = require('path');                                  // const convenience reference to the local filepath
+const path = require('path');
+const webpack = require('webpack');                                  // const convenience reference to the local filepath
 
-module.exports = {
+const HtmlWebpackPlugin = require('html-webpack-plugin');        // const reference to webpack's html plugin
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts'); // ← add
 
-    //                                                  set export mode
-    // mode: 'production',
-    mode: 'development',
 
-    // enable Watch Mode (auto refresh changes), 
-    watch: true, // see: https://webpack.js.org/guides/development/#using-watch-mode
+/** Export webpack bundle in Production mode, or Development? 
+ * 
+ * **Note:** Remember to close & restart Webpack if changed, `npm start` @returns {boolean} */
+const PRODUCTION_BUILD = false;
 
-    entry: { //                                         entry: place to begin generating webpage from
-        // index: './src/index.js',
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            //                                          webpage title here
-            title: 'New Website',
-        }),
-    ],
 
-    // enable inline source mapping, so we can see lines/error info in browser console output
-    devtool: 'inline-source-map', // see: https://webpack.js.org/guides/development/#using-source-maps
+module.exports = () => {
 
-    // enable webpack dev server so we can locally test 
-    // run: npm install webpack-dev-server --save
-    // remember to also add check "optimization" at bottom
-    // see: https://webpack.js.org/guides/development/#using-webpack-dev-server
-    devServer: {
-        static: './dist',
-    },
+    const mode = PRODUCTION_BUILD ? 'production' : 'development'; // argv.mode || 'development';
+    // PRODUCTION_BUILD
 
-    module: {
-        rules: [
-            //                                          module rules (with some presets)
+    return {
 
-            // Jquery (requires library): npm install jquery --save
-            // { 
-            //     test: require.resolve("jquery"),
-            //     loader: "expose-loader",
-            //     options: {
-            //         exposes: ["$", "jQuery"],
-            //     },
-            // },
+        mode: mode,
+        // mode: PRODUCTION_BUILD ? 'production' : 'development',
 
-            // CSS (requires loader): npm install style-loader css-loader postcss-loader --save
-            // {
-            //     test: /\.css$/i,
-            //     use: ['style-loader', 'css-loader', 'postcss-loader'],
-            // },
+        context: path.resolve(__dirname, 'src'),
 
-            // Images asset loading
-            {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
+        // enable Watch Mode (auto refresh changes),
+        // watch: true, // see: https://webpack.js.org/guides/development/#using-watch-mode
+        // commenting out as watch performance is implied via devServer
 
-            // Fonts asset loading
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/i,
-                type: 'asset/resource',
-            },
+        entry: { //                                         entry: place to begin generating webpage from
+            index: './js/index.js',
+        },
+        plugins: [
+            new RemoveEmptyScriptsPlugin(),
+            new HtmlWebpackPlugin({
+                //                                          webpage title here
+                title: 'Duck Pond Field Guide',
+            }),
+            new MiniCssExtractPlugin({
+                filename: '[name].css',
+                chunkFilename: '[name].css',
+                runtime: false,
+            }),
 
+            // define a plugin to ensure globally accessible __DEV__ and __PROD__ flags (prolly redundant, maybe remove later)
+            new webpack.DefinePlugin({
+                __DEV__: JSON.stringify(!PRODUCTION_BUILD),
+                __PROD__: JSON.stringify(PRODUCTION_BUILD),
+            }),
         ],
-    },
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        clean: true,
-    },
-    // build time optimization, see https://webpack.js.org/guides/development/#using-webpack-dev-server 
-    optimization: {
-        runtimeChunk: 'single',
-    },
+
+        // enable inline source mapping, so we can see lines/error info in browser console output
+        devtool: PRODUCTION_BUILD ? 'source-map' : 'eval-cheap-source-map', // see: https://webpack.js.org/guides/development/#using-source-maps
+        // for prod builds, either use 'source-map' (full exposure of source in separate file, easy live debugging) or false (no sourcemap included)
+        // see: https://webpack.js.org/configuration/devtool/#devtool
+
+        // enable webpack dev server so we can locally test 
+        // run: npm install webpack-dev-server --save
+        // remember to also add check "optimization" at bottom
+        // see: https://webpack.js.org/guides/development/#using-webpack-dev-server
+        devServer: {
+            static: 'dist',
+            // static: path.resolve(__dirname, 'dist'),
+        },
+
+        module: {
+            rules: [
+                //                                          module rules (with some presets)
+
+                // Jquery (requires library): npm install jquery --save
+                {
+                    test: require.resolve("jquery"),
+                    loader: "expose-loader",
+                    options: {
+                        exposes: ["$", "jQuery"],
+                    },
+                },
+
+                // CSS (requires loader): npm install style-loader css-loader postcss-loader --save
+                {
+                    test: /\.(sc|c)ss$/i,
+                    use: [
+                        MiniCssExtractPlugin.loader, // extract css to subfolder 
+                        'css-loader',
+                        'postcss-loader',
+                        // 'sass-loader',
+                        // 'style-loader',
+                    ],
+                },
+
+                // Images asset loading
+                {
+                    test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                    type: 'asset/resource',
+                },
+
+                // Fonts asset loading
+                {
+                    test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                    type: 'asset/resource',
+                },
+
+            ],
+        },
+        output: {
+            // filename: '[name].bundle.js',
+            filename: '[name].bundle.js',
+            path: path.resolve(__dirname, 'dist'),
+            assetModuleFilename: '[path][name][ext]',
+            clean: true,
+        },
+        // build time optimization, see https://webpack.js.org/guides/development/#using-webpack-dev-server 
+        optimization: {
+            // runtimeChunk: 'single',
+            runtimeChunk: false,
+            splitChunks: {
+                cacheGroups: {
+                    styles: {
+                        name: 'styles',
+                        type: 'css/mini-extract', // use type, not test 
+                        chunks: 'all',
+                        enforce: true,
+                    },
+                },
+            },
+            removeEmptyChunks: true,
+        },
+    };
 };
