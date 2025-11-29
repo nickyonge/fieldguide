@@ -1,8 +1,7 @@
 /* initial commit */
 
 /** 
- * Demo function confirming import. 
- * Outputs a console log. 
+ * Demo function. Outputs a console log. 
  * @returns {void} 
  */
 export function HelloWaddle() {
