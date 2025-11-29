@@ -1,10 +1,13 @@
 /* WEBPACK TEMPLATE SETUP 
- * webpack.config.js
+ * webpack.config.js 
+ * webpack.config.cjs
  * 
  * All the steps for getting a new webpack-based website started via VS Code! 
  * 
  * This script itself is a file called webpack.config.js and is used to tell Webpack how to build your site.
  * Start with the prerequisites below! 
+ * 
+ * NOTE: The filename either webpack.config.js or .cjs at your discretion. Details at end of guide. 
  * 
  *  --- PREREQUISITES --- 
    - Install VS Code, https://code.visualstudio.com
@@ -13,9 +16,9 @@
         If a popup appears installing additional tools, just keep Pressing Any Key until the installation is complete.
         Helpful but optional: Node.js tutorial for VS Code: https://code.visualstudio.com/docs/nodejs/nodejs-tutorial
    - Create your directory folder,
-        "My Website That Is Cool And Going To Change The World For Everyone For The Better",
+        "My Cool Website That Is Going To Make The World Better For Everyone",
         and place this file in it. Open it up in VS Code
-   - You're good to go!
+   - Time to get started!
  * 
  * 
  *  --- SHORT SUMMARY --- 
@@ -35,10 +38,10 @@
         "preview": "npx http-server dist"
  *         (package.json will be auto-created in your parent directory. You'll find the scripts array 
  *         inside it with a few values prepopulated - just copy+paste these!)
- * 3: Fill out the values in the Config region of this file, below
-        PRODUCTION_BUILD should be while you're in development mode 
-        SITE_TITLE should be the name of your beautiful new website
-        SRC_FOLDER, OUTPUT_FOLDER, and INDEX_FILE should be left "src", "dist", and "./js/index.js", respectively
+ * 3: Fill out the SITE_TITLE in the Config region of this file, below
+        SITE_TITLE should be the name of your beautiful new website. You can ignore the other values for now. 
+            PRODUCTION_BUILD should be false while you're in development mode, and true when you're ready to launch 
+            SRC_FOLDER, OUTPUT_FOLDER, and INDEX_FILE should be left "src", "dist", and "./js/index.js", respectively
  * 
  *       Done! Run command "npm start" to get underway
  *       Consider starting by making a src/ directory and index.js inside of it (steps 9/10 in the detailed instructions below)
@@ -84,6 +87,20 @@
  *          Use command "npm start" :) 
  * 
  * 
+ * 
+ * A NOTE ON .JS vs .CJS EXTENSION (webpack.config.cjs) 
+    Using .cjs tells the compiler to use the CommonJS module system, the original standard for Node.js. 
+    This means the compiler will NOT spend any time looking for more modern modules, eg ECMAScript (ES). 
+ *  This guide is written referencing "webpack.config.js" for simplicity, but using ".cjs" is suggested.
+    It's suggested both because explicit naming is encouraged, and to bypass VSCode sugugestions.
+    Using "cjs" simply disables a VSCode Intellisense suggestion on they keyword "require", such as 
+        const path = require('path');
+    The suggestion encourages you to convert the line to ES syntax, "import { path } from 'path';". 
+    This is all well and good, but it breaks Webpack if it's not configured for ES6+. 
+    This Webpack setup is not configured for it, as the intent was to keep this setup lightweight. 
+    For more info, see: https://webpack.js.org/api/module-methods/ 
+ * 
+ * 
  * If you want even more details, here's Webpack's official Getting Started guide: 
  * https://webpack.js.org/guides/getting-started/
  *
@@ -93,11 +110,15 @@
 
 // tutorial complete~
 // done? consider deleting the above tutorial section, or moving it to the end of this file.
-// you may end up modifying webpack config quite a bit! might as well have the content up top.
+// you may end up modifying webpack config quite a bit! Might as well have the content up top.
 
-// https://webpack.js.org/configuration/
+// More info about webpack.config.js in the reference: https://webpack.js.org/configuration/
+
+
+
 
 // #region Config 
+
 
 /** Export webpack bundle in Production mode, or Development? 
  * - **Note:** Remember to close & restart Webpack if changed, via `npm start` 
@@ -118,11 +139,24 @@ const OUTPUT_FOLDER = 'dist';
  * {@linkcode SRC_FOLDER}. Must begin with `./` or `/`. @type {string} */
 const INDEX_FILE = './js/index.js';
 
-// #endregion Config 
+// #endregion Config
 
+
+
+/** The `node:path` module provides utilities for working with file and directory paths. 
+ * @see https://github.com/nodejs/node/blob/v24.x/lib/path.js */
 const path = require('path');
+/** The `node:path` module provides utilities for working with file and directory paths. 
+ * @see https://github.com/nodejs/node/blob/v24.x/lib/path.js */
+const webpack = require('webpack');
+/** Handles creation of HTML files to serve your webpack bundles. 
+ * @see https://webpack.js.org/plugins/html-webpack-plugin/ */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+/** Extracts CSS into separate files. We use it to control how CSS files are output for our project. 
+ * @see https://webpack.js.org/plugins/mini-css-extract-plugin/ */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+/** A Webpack plugin to remove empty JavaScript files generated when using style-only entries.
+ * @see https://github.com/webdiscus/webpack-remove-empty-scripts */
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 /** 
@@ -145,15 +179,20 @@ module.exports = () => {
 
     return {
 
-        // set the runtime build environment 
+        /** The runtime build environment, either `"production"` or `"development"`
+         * @see {@linkcode PRODUCTION_BUILD} */ 
         mode: environment,
 
-        // reference to src folder build path 
+        /** Reference to {@linkcode SRC_FOLDER} build path */
         context: path.resolve(__dirname, SRC_FOLDER),
 
-        entry: { // initial script to begin generating runtime webpage from
+        /** Entry point to begin generating runtime webpage from */
+        entry: {
+            /** Index file, the initially loaded script.
+             * @see {@linkcode INDEX_FILE} */
             index: INDEX_FILE,
         },
+        /** List of all webpack plugins we're using @type {webpack.WebpackPluginInstance[]} */
         plugins: [
             // define webpack plugins here 
             new RemoveEmptyScriptsPlugin(),
@@ -167,19 +206,21 @@ module.exports = () => {
             }),
         ],
 
-        // enable inline source mapping, so we can see lines/error info in browser console output
-        devtool: PRODUCTION_BUILD ? 'source-map' : 'eval-cheap-source-map', // see: https://webpack.js.org/guides/development/#using-source-maps
+        /** Protocol for source mapping, so we can see lines/error info in browser console output
+         * @see https://webpack.js.org/guides/development/#using-source-maps @type {string} */
+        devtool: PRODUCTION_BUILD ? 'source-map' : 'eval-cheap-source-map',
         // for prod builds, either use 'source-map' (full sourcemap in separate file, unsecure but easy live debugging) or false (no sourcemap included)
         // see: https://webpack.js.org/configuration/devtool/#devtool
 
-        // enable webpack dev server so we can locally test 
-        // run: npm install webpack-dev-server --save
-        // remember to also add check "optimization" at bottom
-        // see: https://webpack.js.org/guides/development/#using-webpack-dev-server
+        /** Enable webpack dev server so we can locally test 
+         * @see https://webpack.js.org/guides/development/#using-webpack-dev-server */
         devServer: {
             static: OUTPUT_FOLDER,
         },
 
+        /** 
+         * Defines how the {@link https://webpack.js.org/concepts/modules modules} in this project will be treated.
+         * @see https://webpack.js.org/configuration/module/ */
         module: {
             rules: [
 
@@ -219,6 +260,8 @@ module.exports = () => {
             ],
         },
 
+        /** Output options for builds
+         * @see https://webpack.js.org/configuration/output/  */
         output: {
             filename: '[name].bundle.js',
             path: path.resolve(__dirname, OUTPUT_FOLDER),
@@ -226,7 +269,8 @@ module.exports = () => {
             clean: true,
         },
 
-        // build time optimization, see https://webpack.js.org/guides/development/#using-webpack-dev-server 
+        /** Build time optimization options
+         * @see https://webpack.js.org/configuration/optimization */
         optimization: {
             runtimeChunk: false,
             splitChunks: {
