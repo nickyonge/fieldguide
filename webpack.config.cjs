@@ -1,13 +1,13 @@
 /* WEBPACK TEMPLATE SETUP 
  * webpack.config.cjs
- * webpack.config.js 
+ * webpack.config.js
  * 
- * All the steps for getting a new webpack-based website started via VS Code! 
+ * All the steps for getting a new Webpack-based website started via VS Code! 
  * 
  * This script itself is a file called webpack.config.cjs and is used to tell Webpack how to build your site.
  * Start with the prerequisites below! 
  * 
- * NOTE: The filename either webpack.config.js or .cjs at your discretion. Details at end of guide. 
+ * NOTE: The filename can be webpack.config.cjs or .js at your discretion. Using .cjs is recommended. Details at end of guide. 
  * 
  *  --- PREREQUISITES --- 
    - Install VS Code, https://code.visualstudio.com
@@ -98,10 +98,11 @@
     The suggestion encourages you to convert the line to ES syntax, "import { path } from 'path';". 
     This is all well and good, but it breaks Webpack if it's not configured for ES6+. 
     This Webpack setup is not configured for it, as the intent was to keep this setup lightweight. 
-    For more info, see: https://webpack.js.org/api/module-methods/ 
+    For more info on using ECMAScript, see: https://webpack.js.org/api/module-methods/ 
+    For other config file languages, see: https://webpack.js.org/configuration/configuration-languages/ 
  * 
  * 
- * If you want even more details, here's Webpack's official Getting Started guide: 
+ * If you want to dig deeper, here's Webpack's official Getting Started guide: 
  * https://webpack.js.org/guides/getting-started/
  *
  * by Nick Yonge
