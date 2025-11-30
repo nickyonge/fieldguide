@@ -46,7 +46,7 @@ export class ImageField extends TitledComponent {
 
     /**
      * 
-     * @param {string|ImageContainer|svgHTMLAsset|HTMLElement|pathNode|[string,string?]|[pathNode,string?]} [src]
+     * @param {string|ImageContainer|svgHTMLAsset|HTMLElement|[string,string?]} [src]
      * @param {string} [componentTitle] Optional title to add to this component 
      */
     constructor(src, componentTitle) {
@@ -58,7 +58,7 @@ export class ImageField extends TitledComponent {
             this.addSVG(src);
             return;
         } else if (Array.isArray(src)) {
-            // [string,string?] or [pathNode,string?]
+            // [string,string?]
             switch (src.length) {
                 case 1:
                     this.addImage(src[0]);
@@ -69,7 +69,7 @@ export class ImageField extends TitledComponent {
             }
             return;
         }
-        // string, ImageContainier, HTMLElement, or pathNode
+        // string, ImageContainer, HTMLElement
         this.addImage(src);
     }
 
@@ -80,9 +80,8 @@ export class ImageField extends TitledComponent {
      * 
      * `imgSrc` can be the following types:
      * - `string`, used directly as the value for `src` attribute
-     * - `pathNode`, retrieves the `URL` element from the `pathNode`
      * - `HTMLElement`, uses this element instead of creating a new one 
-     * @param {string | pathNode | HTMLElement | ImageContainer | ImageAlphaLayer} imgSrc Value to add to the "src" attribute to the new img 
+     * @param {string | HTMLElement | ImageContainer | ImageAlphaLayer} imgSrc Value to add to the "src" attribute to the new img 
      * @param {string} [alt=null] Alt text to provide to the new img (optional) 
      * @param {boolean} [canvasSized=true] Assign the `canvasSizedImg` CSS class, forcing 2:1 aspect ratio? Default `true` 
      * @param {number} [zSort=0] Assignment for z-index CSS class. 0: leave default, >=1: assign class `onTop`, <=0: assign class `onBottom`. Default 0
@@ -115,8 +114,8 @@ export class ImageField extends TitledComponent {
             // pre-existing ImageContainer 
             img = new ImageContainer(this, imgSrc, alt);
         } else {
-            // string or pathNode 
-            let src = typeof imgSrc === 'string' ? imgSrc : imgSrc.URL;
+            // string 
+            let src = imgSrc;
             if (src == null) { return null; }
             src = src.trim();
             if (isBlank(src)) { return null; }
@@ -131,9 +130,9 @@ export class ImageField extends TitledComponent {
     }
 
     /**
-     * Gets the given image element, identified by source URL/pathNode/element, 
+     * Gets the given image element, identified by source URL/element, 
      * if it's found in this ImageField?
-     * @param {string | pathNode | HTMLElement | ImageContainer | ImageAlphaLayer | number} imgSrc `src` value for the image (or index of the image)
+     * @param {string | HTMLElement | ImageContainer | ImageAlphaLayer | number} imgSrc `src` value for the image (or index of the image)
      * @returns {ImageContainer | null}
      */
     getImage(imgSrc) {
@@ -143,8 +142,8 @@ export class ImageField extends TitledComponent {
     }
 
     /**
-     * is the given image, identified by source URL/pathNode/element, in this ImageField?
-     * @param {string | pathNode | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value for the image
+     * is the given image, identified by source URL/element, in this ImageField?
+     * @param {string | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value for the image
      * @returns {boolean}
      */
     hasImage(imgSrc) {
@@ -152,8 +151,8 @@ export class ImageField extends TitledComponent {
     }
 
     /**
-     * Extract the source from a given imgSrc, either `string`, `ImageContainer`, `pathNode`, or `HTMLElement`. Returns `null` if src can't be found
-     * @param {string | pathNode | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value input. If just a string, returns itself - otherwise, extracts the `src` value as needed 
+     * Extract the source from a given imgSrc, either `string`, `ImageContainer`, or `HTMLElement`. Returns `null` if src can't be found
+     * @param {string | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value input. If just a string, returns itself - otherwise, extracts the `src` value as needed 
      * @returns {string | null}
      */
     getImgSrc(imgSrc) {
@@ -161,8 +160,8 @@ export class ImageField extends TitledComponent {
     }
 
     /**
-     * Extract the source from a given imgSrc, either `string`, `ImageContainer`, `pathNode`, or `HTMLElement`. Returns `null` if src can't be found
-     * @param {string | pathNode | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value input. If just a string, returns itself - otherwise, extracts the `src` value as needed 
+     * Extract the source from a given imgSrc, either `string`, `ImageContainer`, or `HTMLElement`. Returns `null` if src can't be found
+     * @param {string | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value input. If just a string, returns itself - otherwise, extracts the `src` value as needed 
      * @returns {string | null}
      */
     static GetImageSource(imgSrc) {
@@ -177,13 +176,13 @@ export class ImageField extends TitledComponent {
             // ImageAlphaLayer 
             return imgSrc.imageURL;
         }
-        // process of elimination, pathNode
-        return imgSrc['URL'] ? imgSrc.URL : null;
+        // process of elimination, null (never)
+        return null;
     }
 
     /**
-     * Extract the source from a given imgSrc, either `string`, `ImageContainer`, `pathNode`, or `HTMLElement`. Returns `null` if src can't be found
-     * @param {string | pathNode | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value input. If just a string, returns itself - otherwise, extracts the `src` value as needed 
+     * Extract the source from a given imgSrc, either `string`, `ImageContainer`, or `HTMLElement`. Returns `null` if src can't be found
+     * @param {string | ImageContainer | ImageAlphaLayer | HTMLElement} imgSrc `src` value input. If just a string, returns itself - otherwise, extracts the `src` value as needed 
      * @returns {string | null}
      */
     GetImageAltFromSrc(imgSrc) {
@@ -211,7 +210,7 @@ export class ImageField extends TitledComponent {
      * is found in this ImageField's `#addedImgs` array.
      * 
      * If not found, returns `-1`
-     * @param {string | pathNode | HTMLElement | ImageAlphaLayer | ImageContainer} imgSrc `src` value for the image
+     * @param {string | HTMLElement | ImageAlphaLayer | ImageContainer} imgSrc `src` value for the image
      * @returns {number}
      */
     #getImageIndex(imgSrc) {
@@ -227,9 +226,9 @@ export class ImageField extends TitledComponent {
     }
 
     /**
-     * Remove the given image by source URL/pathNode/HTMLElement. 
+     * Remove the given image by source URL/HTMLElement. 
      * Returns `true` if image was successfully found and removed.
-     * @param {string | pathNode | HTMLElement | ImageAlphaLayer | ImageContainer} imgSrc `src` value for the image
+     * @param {string | HTMLElement | ImageAlphaLayer | ImageContainer} imgSrc `src` value for the image
      * @returns {boolean} `true` if the image was removed, `false` if not (either because it couldn't be removed or it wasn't found)
      */
     removeImage(imgSrc) {
@@ -507,7 +506,7 @@ export class ImageContainer {
     /**
      * 
      * @param {ImageField|ImageContainer} parent 
-     * @param {string|HTMLElement|pathNode|ImageContainer|ImageAlphaLayer} imgSrc 
+     * @param {string|HTMLElement|ImageContainer|ImageAlphaLayer} imgSrc 
      * @param {string} [alt=undefined] Alt text for image (optional) 
      */
     constructor(parent, imgSrc, alt = undefined) {
@@ -552,8 +551,9 @@ export class ImageContainer {
             this.element = imgSrc;
             if (alt != null) { this.element.setAttribute('alt', alt); }
         } else {
-            // pathNode 
-            this.element = ui.CreateImage(imgSrc.URL, alt);
+            // null 
+            console.warn(`WARNING: invalid imgSrc ${imgSrc} type/instance, setting element to null, investigate`, this);
+            this.element = null;
         }
         // confirm init, ensure attributes are correct 
         this.#_initialized = true;
@@ -572,7 +572,7 @@ export class ImageContainer {
                 default:
                     console.warn(`WARNING: invalid value for IMGCONT_OPACITY_METHOD: ${IMGCONT_OPACITY_METHOD}, defaulting to 'opacity', investigate`, this);
                 case 'opacity':
-                    this.element.style.opacity = this.opacity;
+                    this.element.style.opacity = String(this.opacity);
                     break;
                 case 'filter':
                     this.element.style.filter = `alpha(opacity=${this.opacity * 100})`;
