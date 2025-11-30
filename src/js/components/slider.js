@@ -45,7 +45,7 @@ export class Slider extends TitledComponent {
         // TODO: make enable/disable a core part of BasicComponent
         // Issue URL: https://github.com/nickyonge/evto-web/issues/52
         this.#input.disabled = v;
-        this.div.style.opacity = v ? DISABLED_ALPHA : 1;
+        this.div.style.opacity = String(v ? DISABLED_ALPHA : 1);
         this.div.style.filter = v ? `grayscale(${DISABLED_GRAYSCALE})` : '';
         SetElementEnabled(this.div, !v);
         if (v) {
