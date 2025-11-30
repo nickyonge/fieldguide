@@ -1,7 +1,7 @@
 import * as ui from "../ui";
 // import iconHelp from '../../assets/svg/icons-white/icon-help.svg';
 import * as txt from "../text";
-import { ToggleOverlay } from "../uiOverlay";
+// import { ToggleOverlay } from "../uiOverlay";
 
 export class HelpIcon {
 
@@ -76,6 +76,7 @@ export class HelpIcon {
     }
 
     displayHelpText() {
-        ToggleOverlay(this.helpTextBody, this.helpTextTitle, this.#helpDiv);
+        console.log("TOGGLE OVERLAY");
+        // ToggleOverlay(this.helpTextBody, this.helpTextTitle, this.#helpDiv);
     }
 }
