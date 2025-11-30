@@ -1,6 +1,6 @@
 import * as ui from "../ui";
 import { BasicComponent, TitledComponent } from "./base";
-import Coloris from "@melloware/coloris";
+// import Coloris from "@melloware/coloris";
 
 /** if true, inserts an intermediary container between coloris and div */
 const useColorisContainer = true;
@@ -52,10 +52,10 @@ export class ColorPicker extends TitledComponent {
         // on change callback returns 2 params, the color changed to, and a reference to this ColorPicker component 
         this.#input.addEventListener('click', function () {
             // @ts-ignore - just ignoring TS errors on external libraries 
-            Coloris({
-                alpha: this.#enableAlpha,
-                onChange: onChangeCallback ? (color) => { onChangeCallback(color, this); } : undefined,
-            });
+            // Coloris({
+            //     alpha: this.#enableAlpha,
+            //     onChange: onChangeCallback ? (color) => { onChangeCallback(color, this); } : undefined,
+            // });
             this.UpdateColor();
         }.bind(this));
 
