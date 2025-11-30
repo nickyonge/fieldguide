@@ -642,7 +642,7 @@ export class svgHTMLAsset extends svg.element {
     set gradient(v) {
         if (v == null) {
             if (svg.config.GRADIENT_SET_NULL_SETS_FILL_NULL) {
-                // TODO: implement GetAllSVGElementsWithProperty to find all svgs using a gradient
+                // DPJS_TO_DO: implement GetAllSVGElementsWithProperty to find all svgs using a gradient
                 // Issue URL: https://github.com/nickyonge/evto-web/issues/57
                 // use GetAllSVGElementsWithProperty to find all svgs that reference the gradient 
                 // as a URL, and replace them with null

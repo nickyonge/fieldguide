@@ -47,7 +47,7 @@ export class DropdownList extends TitledComponent {
             ui.AddElementAttribute(this.#selected, 'data-label', '');
         }
         // create dropdown arrow SVG
-        // TODO: dropdown arrow SVG path is not appearing
+        // DPJS_TO_DO: dropdown arrow SVG path is not appearing
         // Issue URL: https://github.com/nickyonge/evto-web/issues/5
         this.#svg = ui.CreateSVG(
             [[arrowSVGPath, '#ffffff']],
@@ -101,7 +101,7 @@ export class DropdownList extends TitledComponent {
                     // callback has three params: option index, fully unique id of the option label, and event target 
                     let target = /** @type {Element} */ (event.target);
                     onSelectCallback(i, target == null ? null : target.id, target);
-                    // TODO: standardize all component callbacks to supply the selected option, and target only (not ID, that can be retrieved later)
+                    // DPJS_TO_DO: standardize all component callbacks to supply the selected option, and target only (not ID, that can be retrieved later)
                     // Issue URL: https://github.com/nickyonge/evto-web/issues/79
                 }
                 if (!this.#initialChange) {
@@ -175,7 +175,7 @@ export class DropdownList extends TitledComponent {
         } else {
             // middle of transition
             clipTop = -clipTop;
-            // TODO: make dropdown CSS not clip out of page, on scroll dropdown out of page top, if ddSelPointerEvents is 'auto'
+            // DPJS_TO_DO: make dropdown CSS not clip out of page, on scroll dropdown out of page top, if ddSelPointerEvents is 'auto'
             // Issue URL: https://github.com/nickyonge/evto-web/issues/37
             dropdownPointerEvents = 'none';
             ddSelPointerEvents = 'auto';
@@ -258,7 +258,7 @@ export class DropdownList extends TitledComponent {
 
     // --------------------------------- dragging
 
-    // TODO: dropdown dragging is very choppy and does not respect smooth scroll, clean up 
+    // DPJS_TO_DO: dropdown dragging is very choppy and does not respect smooth scroll, clean up 
     // Issue URL: https://github.com/nickyonge/evto-web/issues/78
 
     /** @type {boolean} @private */
@@ -360,7 +360,7 @@ export class DropdownList extends TitledComponent {
                 return i;
             }
         }
-        // TODO: dropdown initial checked/defaultchecked state broken when multiple dropdowns present
+        // DPJS_TO_DO: dropdown initial checked/defaultchecked state broken when multiple dropdowns present
         // Issue URL: https://github.com/nickyonge/evto-web/issues/40
         // failsafe: if no value selected, initial value is NOT -1, and initial change is false, return initial valeu
         if (this.#initialValue != -1 && !this.#initialChange) {

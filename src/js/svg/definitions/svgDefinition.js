@@ -28,7 +28,7 @@ export class svgDefinition extends svgElement {
     /** local flag for first definition type assignment @type {boolean} */
     #_firstTypeAssigned = false;// use these local flags cuz `null` COULD be a valid assignment
 
-    // TODO: svgDef subDefinitions AddSubDef, RemoveSubDef, Get, Has, etc 
+    // DPJS_TO_DO: svgDef subDefinitions AddSubDef, RemoveSubDef, Get, Has, etc 
     // Issue URL: https://github.com/nickyonge/evto-web/issues/65
 
     /** Array of elements contained in this SVG's `<defs>` @type {svgDefinition[]} */
@@ -356,7 +356,7 @@ export class svgDefinition extends svgElement {
     /** Gets the {@linkcode html} of all this definition's {@linkcode subDefinitions} */
     get subDefinitionsHTML() {
         let h = '';
-        // todo: svgDefinition sub-definitions should also respect <defs> hierarchy (storeInDefsElement)
+        // DPJS_TO_DO: svgDefinition sub-definitions should also respect <defs> hierarchy (storeInDefsElement)
         // Issue URL: https://github.com/nickyonge/evto-web/issues/66
         let subs = [...this.subDefinitions];
         if (subs.length > 0) {

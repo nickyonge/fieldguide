@@ -467,7 +467,7 @@ declare global {
          */
         removeAll(removeValue: string): string;
 
-        // TODO: String.prototype.getNumber / getNumbers 
+        // DPJS_TO_DO: String.prototype.getNumber / getNumbers 
         // Issue URL: https://github.com/nickyonge/evto-web/issues/74
 
         /**

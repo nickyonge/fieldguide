@@ -18,7 +18,7 @@ export function BasicGradientRect(...colors) {
 }
 
 export class svgFancyBox {
-    // TODO: convert svgFancyBox to SVG pattern generation, not its own weird pseudo-shape type 
+    // DPJS_TO_DO: convert svgFancyBox to SVG pattern generation, not its own weird pseudo-shape type 
     // Issue URL: https://github.com/nickyonge/evto-web/issues/53
     x;
     y;

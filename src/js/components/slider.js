@@ -42,7 +42,7 @@ export class Slider extends TitledComponent {
     set enabled(v) { this.disabled = !v; }
     get disabled() { return this.#input.disabled; }
     set disabled(v) {
-        // TODO: make enable/disable a core part of BasicComponent
+        // DPJS_TO_DO: make enable/disable a core part of BasicComponent
         // Issue URL: https://github.com/nickyonge/evto-web/issues/52
         this.#input.disabled = v;
         this.div.style.opacity = String(v ? DISABLED_ALPHA : 1);
@@ -416,7 +416,7 @@ export class Slider extends TitledComponent {
 
         this.addHelpIcon(componentTitle, false, false);
 
-        // TODO: slider.css vars move to vars.css
+        // DPJS_TO_DO: slider.css vars move to vars.css
         // Issue URL: https://github.com/nickyonge/evto-web/issues/43
     }
 

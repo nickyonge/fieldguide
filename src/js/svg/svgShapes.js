@@ -141,7 +141,7 @@ export class svgRect extends svgShape {
      * @param {string|svgGradient|spreadString} [fill] Fill colour, or gradient. If multiple colours as an array, creates a new `linearGradient`. Optional, default {@linkcode svgDefaults.FILL}
      */
     constructor(x = svg.defaults.X, y = svg.defaults.Y, width = svg.defaults.WIDTH, height = svg.defaults.HEIGHT, fill = svg.defaults.FILL) {
-        // TODO: svgShapes, allow non-numeric CSS values for things like width/height (eg 100px)
+        // DPJS_TO_DO: svgShapes, allow non-numeric CSS values for things like width/height (eg 100px)
         // Issue URL: https://github.com/nickyonge/evto-web/issues/68
         const st = _RECT;
         super(fill, st);

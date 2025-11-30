@@ -214,7 +214,7 @@ export class TitledComponent extends BasicComponent {
 
         if (this.#helpIcon) {
             console.warn(`help icon already exists, just updating its values instead, element: ${this.#helpIcon}`)
-            // TODO: replace help text reset with actual text, not null/lipsum
+            // DPJS_TO_DO: replace help text reset with actual text, not null/lipsum
             // Issue URL: https://github.com/nickyonge/evto-web/issues/35
             this.#helpIcon.setText(helpText, null);
             return this.#helpIcon;

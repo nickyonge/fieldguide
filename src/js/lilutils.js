@@ -547,7 +547,7 @@ export function ColorToRGBA(color, alpha = RGBAlpha.Include) {
  * @returns {[number, number, number, number?]|null}
  */
 export function ColorToArray(color, alpha = RGBAlpha.Include) {
-    // TODO: finish ColorToArray and ColorToHex utils
+    // DPJS_TO_DO: finish ColorToArray and ColorToHex utils
     // Issue URL: https://github.com/nickyonge/evto-web/issues/77
     throw new Error(`Not Yet Implemented, ColorToArray, can't convert str: ${color}`);
     color = EnsureColorValid(color);
@@ -1687,7 +1687,7 @@ export function LapCheckInterval(label, lapTime, returnOnNew = true) {
         return returnOnNew;
     }
     if (HasIntervalLapped(label, lapTime)) {
-        // TODO: account for time difference between lapTime and now
+        // DPJS_TO_DO: account for time difference between lapTime and now
         // Issue URL: https://github.com/nickyonge/evto-web/issues/11
         SetInterval(label);
         return true;

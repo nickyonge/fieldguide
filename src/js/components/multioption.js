@@ -36,7 +36,7 @@ export class MutliOptionList extends TitledComponent {
             // create svg
             if (icons && icons.length >= i + 1 && icons[i]) {
                 // found valid icon
-                // TODO: add SVG functionality to label (if needed)
+                // DPJS_TO_DO: add SVG functionality to label (if needed)
                 // Issue URL: https://github.com/nickyonge/evto-web/issues/7
             }
             // create text 

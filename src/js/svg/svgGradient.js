@@ -369,7 +369,7 @@ export class svgGradient extends svg.definition {
      * @returns {number|string|null}
      */
     ScaleValue(value, defaultValue = null, handleNegative = HandleNegative.Auto) {
-        // TODO: replace duplicate code in ScaleValue with DeconstructNumericParam and process there
+        // DPJS_TO_DO: replace duplicate code in ScaleValue with DeconstructNumericParam and process there
         // Issue URL: https://github.com/nickyonge/evto-web/issues/50
         // no need to scale if scale is 1
         if (this.scale == 1) { return value; }
@@ -698,7 +698,7 @@ export class svgGradient extends svg.definition {
                 let ny2 = /** @type {number} */ (deY2[n]);
                 let xy1 = toPoint(nx1, ny1);
                 let xy2 = toPoint(nx2, ny2);
-                // TODO:  svgGradient non-x50y50 anglePivotPoint + negative scale + rotation = buggy 
+                // DPJS_TO_DO:  svgGradient non-x50y50 anglePivotPoint + negative scale + rotation = buggy 
                 // Issue URL: https://github.com/nickyonge/evto-web/issues/72
                 // rotate around pivot
                 let rotated = RotatePointsAroundPivot([xy1, xy2], this.anglePivotPoint, this.angle);
@@ -979,7 +979,7 @@ const HandleNegative = Object.freeze({
     AbsoluteResult: 'absolute',
 });
 
-// TODO: properly implement prev/next svgGradientStop checks 
+// DPJS_TO_DO: properly implement prev/next svgGradientStop checks 
 // Issue URL: https://github.com/nickyonge/evto-web/issues/75
 /** skip prev/next stop checks, they're a deferred WIP */
 const SKIP_PREVNEXT_STOP_CHECKS = true;
@@ -1032,7 +1032,7 @@ class svgGradientStop extends svg.element {
             for (let i = 0; i < params.length; i++) {
                 if (params[i] == null) { continue; }
                 if (typeof params[i] === 'number') {
-                    // TODO: upscale entire svgGradient to allow offsets beyond 0/100, for corners of rotated gradients 
+                    // DPJS_TO_DO: upscale entire svgGradient to allow offsets beyond 0/100, for corners of rotated gradients 
                     // Issue URL: https://github.com/nickyonge/evto-web/issues/73
                     let value = EnsureToNumber(params[i]);
                     value = value + parentOffset;
@@ -1152,7 +1152,7 @@ class svgGradientStop extends svg.element {
         if (colors == null) { return []; }
         // colors = colors.flat(); // actually don't flatten, ...colors can contain strings alongside 2d arrays // // convert to proper array 
         let stops = [];
-        // TODO: re-use existing stops instead of generating new ones where possible
+        // DPJS_TO_DO: re-use existing stops instead of generating new ones where possible
         // Issue URL: https://github.com/nickyonge/evto-web/issues/56
         // detect and flatten nested array 
         // colors = colors.flattenSpread(); // flattenSpread might work but also might screw with array nesting, dw for now 

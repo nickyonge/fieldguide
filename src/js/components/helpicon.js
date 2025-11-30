@@ -15,7 +15,7 @@ export class HelpIcon {
 
     constructor(parentDiv, helpTextTitle, togglePos = false, rightJustify = true) {
 
-        // TODO: help text should load text from txt dictionary, maybe based on component title?
+        // DPJS_TO_DO: help text should load text from txt dictionary, maybe based on component title?
         // Issue URL: https://github.com/nickyonge/evto-web/issues/36
         this.setText(helpTextTitle);
 
