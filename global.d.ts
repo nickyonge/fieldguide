@@ -158,7 +158,7 @@ declare global {
          * @type {(type:string, source:T[], returnValue:T, ...parameters:T[]): T}
          * @template T 
          */
-        onChange?: (type: string, updatedArray: T[], previousArray: T[], returnValue: T, ...parameters: T[]) => T;
+        onChange?: (type: string, updatedArray: T[], previousArray: T[], returnValue: T, ...parameters: T[]) => any;
 
         /**
          * Returns this array after copying a section of the array identified by start and end
