@@ -267,14 +267,14 @@ export class DropdownList extends TitledComponent {
     _startY;
     /** @type {number} @private */
     _initialScrollTop;
-    /** @param {Element} target  */
+    /** @param {HTMLElement} target  */
     addDrag(target) {
         target.addEventListener('mousedown', this.dragDown);
         target.addEventListener('mouseleave', this.dragLeave);
         target.addEventListener('mouseup', this.dragUp);
         target.addEventListener('mousemove', this.dragMove);
     }
-    /** @param {Element} target  */
+    /** @param {HTMLElement} target  */
     removeDrag(target) {
         if (target == null) { return; }
         target.removeEventListener('mousedown', this.dragDown);
