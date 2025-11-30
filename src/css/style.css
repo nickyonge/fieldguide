@@ -1,6 +1,24 @@
 @import 'vars.css';
 
-html, body {
+/* HORIZONTAL ORIENTATION, eg desktop / landscape tablet */
+/* @media screen and (min-aspect-ratio: 1.2) { } */
+
+/* VERTICAL ORIENTATION, eg phone / portrait tablet */
+/* @media screen and (max-aspect-ratio: 1.2) { } */
+
+/* NARROW, footer has WRAPPED so that KS Live Now btn is ABOVE Email */
+/* match width to var(--viewport-bottombar-wrap) in vars.css */
+/* @media screen and (max-width: 750px) { } */
+
+/* WIDE, footer is WIDE so that KS Live Now btn INLINE with Email */
+/* match width to var(--viewport-bottombar-wrap) in vars.css */
+/* @media screen and (min-width: 750px) { } */
+
+html,
+body {
+    overflow-y: hidden;
+    overscroll-behavior-y: none;
+    /* w/h must be 100% or body-scroll-lock hides body on mobile */
     width: 100%;
     height: 100%;
     margin: 0;
@@ -17,21 +35,139 @@ body {
     background-image: radial-gradient(var(--color-bg-gradient-1), var(--color-bg-gradient-2) 42.0%, var(--color-bg-gradient-3) 127%);
 }
 
-.container {
+h1 {
+    margin: 0;
+    font-size: 21.3pt;
+    margin-top: 0px;
+}
+h2 {
+    margin: 0;
+    font-size: 16.9pt;
+    margin-top: 0px;
+}
+h3 {
+    margin: 0;
+    font-size: 12pt;
+    margin-top: 6.9px;
+    opacity: 0.8;
+}
+
+/* TO/DO test cancel: change ultrawide BG to linear gradient, or remove altogether */
+/* @media screen and (min-aspect-ratio: 3) {
+    body {
+        background-image: none;
+    }
+} */
+
+
+#container {
+    z-index: -1;
+    display: grid;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    grid-template:
+        [header] "header header" var(--ui-header-height) [main] "artWindow dataWindow" 1fr
+        [footer] "footer footer" var(--ui-footer-height) / var(--ui-art-window-ratio) 1fr;
+}
+
+#container.dataOnLeft {
+    grid-template:
+        [header] "header header" var(--ui-header-height) [main] "dataWindow artWindow" 1fr
+        [footer] "footer footer" var(--ui-footer-height) / var(--ui-art-window-ratio) 1fr;
+}
+
+@media screen and (max-aspect-ratio: 1.2) {
+    #container.dataOnLeft,
+    #container {
+        grid-template:
+            [header] "header" var(--ui-header-height) [main] "artWindow" var(--ui-art-window-ratio) [main] "dataWindow" 1fr
+            [footer] "footer" var(--ui-footer-height) / 1fr;
+    }
+    #container.dataOnTop {
+        grid-template:
+            [header] "header" var(--ui-header-height) [main] "dataWindow" 1fr
+            [main] "artWindow" var(--ui-art-window-ratio) [footer] "footer" var(--ui-footer-height) / 1fr;
+    }
+}
+
+header {
+    grid-area: header;
+}
+artWindow {
+    grid-area: artWindow;
+}
+dataWindow {
+    grid-area: dataWindow;
+    opacity: 0;
+    transition: opacity 420ms ease-out 10ms;
+}
+footer {
+    grid-area: footer;
+}
+
+.title {
+    display: inline-flex;
+    flex-direction: column;
+    height: 100%;
+    padding-left: 12px;
+    position: relative;
+    align-items: left;
+    /* font-size: 16pt; */
+}
+
+input[type="text"] {
+    /* display: none; */
+    border: 0;
+    padding: 0;
+    font-family: 'Inclusive Sans', 'Helvetica Neue', Helvetica, sans-serif;
+    height: 20px;
+    margin-left: 5px;
+    text-indent: 5px;
+    border-radius: var(--ui-component-border-radius);
+    background-color: var(--ui-component-color-bg);
+    color: var(--ui-component-color-text-light);
+}
+input[type="text"]:hover,
+input[type="text"]:focus-visible {
+    background-color: var(--ui-component-color-bg-highlight);
+}
+
+header.demoBG {
+    background-color: var(--demo-bg-navbar);
+}
+footer.demoBG {
+    background-color: var(--demo-bg-navbar);
+}
+artWindow.demoBG {
+    background-color: var(--demo-bg-winart);
+}
+dataWindow.demoBG {
+    background-color: var(--demo-bg-windat);
+}
+
+
+
+
+
+
+
+
+.simpleContainer {
     /* a simple container, to ensure the correct positioning of the inner div */
     display: flex;
     height: 100vh;
     justify-content: center;
     align-items: center;
 }
-.inner {
+.simpleContainer .inner {
     /* a simple div to contain a cute little message */
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--innerDiv-width);
-    height: var(--innerDiv-height);
-    background-color: var(--color-innerDiv);
-    border-radius: var(--innerDiv-radius);
+    width: var(--simpleContainer-innerDiv-width);
+    height: var(--simpleContainer-innerDiv-height);
+    background-color: var(--color-simpleContainer-innerDiv);
+    border-radius: var(--simpleContainer-innerDiv-radius);
     box-shadow: 0px 6px 8px #00000027;
 }

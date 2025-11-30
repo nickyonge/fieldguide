@@ -1,0 +1,372 @@
+/* "Pure CSS tab indicator animation" by CeramicSoda
+https://codepen.io/ceramicSoda/pen/WNgybXN */
+
+/* html,body{
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #d3dce6;
+  font-family: monospace; 
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.tabs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    float: left;
+    z-index: 1;
+}
+
+
+.tabs label {
+    /* font-size: 9pt; */
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    /* font-weight: 700; */
+    cursor: pointer;
+    opacity: var(--ui-data-sidebar-color-opacity);
+    width: var(--ui-data-sidebar-tabs-width);
+    height: 20%;
+    text-align: right;
+    margin-left: auto;
+    padding-right: 10px;
+    /* transition: opacity 0.2s ease-out; */
+    transition: color 0.2s ease-out, opacity 0.1s ease-out;
+    z-index: inherit;
+}
+.tabs .separator {
+    transition: opacity 0.1s ease-out, --ui-data-sidebar-separator-transition 0.269s 0.0213s ease-in-out;
+    background: linear-gradient(2.13deg,
+            var(--ui-data-sidebar-separator-transition) 0%,
+            var(--ui-data-sidebar-separator-transparent) 6.9%);
+}
+.tabs label .text {
+    font-size: 10.5pt;
+    /* 10.5pt default size */
+    padding-left: 12px;
+    padding-right: 0px;
+    position: relative;
+    display: inline-flex;
+    height: auto;
+    color: var(--ui-data-sidebar-color-text);
+    transition: color 0.3s ease-out, opacity 0.1s ease-out;
+}
+/* tall dataWindow [] */
+@media screen and (min-aspect-ratio: 1.2) {
+    @media screen and (max-height: 500px) {
+        .tabs label {
+            width: calc(
+                var(--ui-data-sidebar-tabs-width)
+                - ((500px - 100vh) * 0.169)
+            );
+        }
+        .tabs label .text {
+            font-size: 2.8vh;
+        }
+    }
+}
+/* wide dataWindow = */
+@media screen and (max-aspect-ratio: 1.2) {
+    .tabs label .text {
+        font-size: 10pt;
+    }
+    @media screen and (max-height: 620px) {
+        .tabs label {
+            width: calc(
+                var(--ui-data-sidebar-tabs-width)
+                - ((620px - 100vh) * 0.12)
+            );
+        }
+        .tabs label .text {
+            font-size: 2.13vh;
+        }
+    }
+}
+/* @media screen and (max-height: 280px) {
+    .tabs label {
+        font-size: small;
+        max-width: 100px;
+    }
+} */
+.tabs label .icon {
+    height: 50%;
+    max-height: 24px;
+    min-height: 6px;
+    width: auto;
+    margin-left: 10px;
+    /* filter: brightness(0.69) hue-rotate(213deg) saturate(80%); */
+}
+.tabs input[type="radio"] {
+    display: none;
+    width: 0;
+    z-index: 2;
+}
+.tabs label:hover,
+.tabs input[type="radio"]:checked+label {
+    opacity: var(--ui-data-sidebar-color-opacity-hover-selected);
+}
+
+.tabs input[type="radio"]:checked+label {
+    --ui-data-sidebar-separator-transition: var(--ui-data-sidebar-separator-transparent);
+}
+
+.tabs input[type="radio"]:checked+label {
+    color: var(--ui-data-sidebar-color-text-selected);
+    /* transition: color 0.2s ease-out, --ui-data-sidebar-separator-transition 0.269s 0.0213s ease-in-out; */
+}
+
+.tabMarker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    transition: transform .2s ease-in-out;
+}
+.tabMarker #tmBottom,
+.tabMarker #tmTop {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: var(--ui-data-sidebar-color-background);
+    box-shadow: 0px 0px 32px var(--ui-data-sidebar-color-shadow-full);
+}
+.tabMarker #tmTop {
+    top: calc(-100% - 0.213px);
+    padding-bottom: 0px;
+    border-radius: 0 0 var(--ui-data-window-sidebar-rounding) 0;
+    box-shadow: -4px 3px 5px var(--ui-data-sidebar-color-shadow-sharp);
+    margin-top: 0px;
+    transition: margin-top 0.2s;
+}
+.tabMarker #tmBottom {
+    top: 20%;
+    margin-top: 1px;
+    border-radius: 0 var(--ui-data-window-sidebar-rounding) 0 0;
+}
+#tab0:checked~.tabMarker {
+    transform: translateY(calc(calc(100% / 5) * 0));
+}
+#tab0:checked~.tabMarker #tmTop {
+    /* move drop shadow out of the way on top tab selection*/
+    margin-top: -8px;
+}
+#tab1:checked~.tabMarker {
+    transform: translateY(calc(calc(100% / 5) * 1));
+}
+#tab2:checked~.tabMarker {
+    transform: translateY(calc(calc(100% / 5) * 2));
+}
+#tab3:checked~.tabMarker {
+    transform: translateY(calc(calc(100% / 5) * 3));
+}
+#tab4:checked~.tabMarker {
+    transform: translateY(calc(calc(100% / 5) * 4));
+}
+
+
+label .icon {
+    transition: opacity 0.2s ease-out, filter 0.2s ease-in-out;
+    opacity: var(--opacity-svg-default-unsel);
+    filter:
+        grayscale(var(--color-svg-default-gry-unsel)) brightness(var(--color-svg-default-bri-unsel)) saturate(var(--color-svg-default-sat-unsel)) hue-rotate(var(--color-svg-default-hue-unsel));
+}
+.tabs input[type="radio"]:hover+label .icon {
+    transition: opacity 0.2s ease-out;
+    opacity: var(--opacity-svg-default-hover);
+}
+.tabs input[type="radio"]:checked+label .icon {
+    transition: opacity 0.2s ease-out, filter 0.2s ease-out, --ui-data-bg-blendcolor 0.5s ease-in-out;
+    opacity: var(--opacity-svg-default-sel);
+    filter:
+        grayscale(var(--color-svg-default-gry-sel)) brightness(var(--color-svg-default-bri-sel)) saturate(var(--color-svg-default-sat-sel)) hue-rotate(var(--color-svg-default-hue-sel));
+}
+.tabs input[type="radio"]+label .text.default {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-default-unsel);
+}
+.tabs input[type="radio"]:checked+label .text.default {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-default);
+}
+
+label .icon.red {
+    opacity: var(--opacity-svg-red-unsel);
+    filter:
+        grayscale(var(--color-svg-red-gry-unsel)) brightness(var(--color-svg-red-bri-unsel)) saturate(var(--color-svg-red-sat-unsel)) hue-rotate(var(--color-svg-red-hue-unsel));
+}
+.tabs input[type="radio"]:hover+label .icon.red {
+    opacity: var(--opacity-svg-red-hover);
+}
+.tabs input[type="radio"]:checked+label .icon.red {
+    opacity: var(--opacity-svg-red-sel);
+    filter:
+        grayscale(var(--color-svg-red-gry-sel)) brightness(var(--color-svg-red-bri-sel)) saturate(var(--color-svg-red-sat-sel)) hue-rotate(var(--color-svg-red-hue-sel));
+    --ui-data-bg-blendcolor: var(--ui-data-bg-red);
+}
+.tabs input[type="radio"]+label .text.red {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-red-unsel);
+}
+.tabs input[type="radio"]:checked+label .text.red {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-red);
+}
+
+label .icon.orange {
+    opacity: var(--opacity-svg-orange-unsel);
+    filter:
+        grayscale(var(--color-svg-orange-gry-unsel)) brightness(var(--color-svg-orange-bri-unsel)) saturate(var(--color-svg-orange-sat-unsel)) hue-rotate(var(--color-svg-orange-hue-unsel));
+}
+.tabs input[type="radio"]:hover+label .icon.orange {
+    opacity: var(--opacity-svg-orange-hover);
+}
+.tabs input[type="radio"]:checked+label .icon.orange {
+    opacity: var(--opacity-svg-orange-sel);
+    filter:
+        grayscale(var(--color-svg-orange-gry-sel)) brightness(var(--color-svg-orange-bri-sel)) saturate(var(--color-svg-orange-sat-sel)) hue-rotate(var(--color-svg-orange-hue-sel));
+}
+.tabs input[type="radio"]+label .text.orange {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-orange-unsel);
+}
+.tabs input[type="radio"]:checked+label .text.orange {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-orange);
+}
+
+/* yellow not implemented
+label .icon.yellow {
+    opacity: var(--opacity-svg-yellow-unsel);
+    filter:
+        grayscale(  var(--color-svg-yellow-gry-unsel))
+        brightness( var(--color-svg-yellow-bri-unsel)) 
+        saturate(   var(--color-svg-yellow-sat-unsel)) 
+        hue-rotate( var(--color-svg-yellow-hue-unsel));
+}
+.tabs input[type="radio"]:hover+label .icon.yellow { 
+    opacity: var(--opacity-svg-yellow-hover);
+}
+.tabs input[type="radio"]:checked+label .icon.yellow { 
+    opacity: var(--opacity-svg-yellow-sel);
+    filter:
+        grayscale(  var(--color-svg-yellow-gry-sel))
+        brightness( var(--color-svg-yellow-bri-sel)) 
+        saturate(   var(--color-svg-yellow-sat-sel)) 
+        hue-rotate( var(--color-svg-yellow-hue-sel));
+}
+.tabs input[type="radio"]+label .text.yellow {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-yellow-unsel);
+}
+.tabs input[type="radio"]:checked+label .text.yellow {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-yellow);
+}
+*/
+
+label .icon.green {
+    opacity: var(--opacity-svg-green-unsel);
+    filter:
+        grayscale(var(--color-svg-green-gry-unsel)) brightness(var(--color-svg-green-bri-unsel)) saturate(var(--color-svg-green-sat-unsel)) hue-rotate(var(--color-svg-green-hue-unsel));
+}
+.tabs input[type="radio"]:hover+label .icon.green {
+    opacity: var(--opacity-svg-green-hover);
+}
+.tabs input[type="radio"]:checked+label .icon.green {
+    opacity: var(--opacity-svg-green-sel);
+    filter:
+        grayscale(var(--color-svg-green-gry-sel)) brightness(var(--color-svg-green-bri-sel)) saturate(var(--color-svg-green-sat-sel)) hue-rotate(var(--color-svg-green-hue-sel));
+}
+.tabs input[type="radio"]+label .text.green {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-green-unsel);
+}
+.tabs input[type="radio"]:checked+label .text.green {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-green);
+}
+
+label .icon.blue {
+    opacity: var(--opacity-svg-blue-unsel);
+    filter:
+        grayscale(var(--color-svg-blue-gry-unsel)) brightness(var(--color-svg-blue-bri-unsel)) saturate(var(--color-svg-blue-sat-unsel)) hue-rotate(var(--color-svg-blue-hue-unsel));
+}
+.tabs input[type="radio"]:hover+label .icon.blue {
+    opacity: var(--opacity-svg-blue-hover);
+}
+.tabs input[type="radio"]:checked+label .icon.blue {
+    opacity: var(--opacity-svg-blue-sel);
+    filter:
+        grayscale(var(--color-svg-blue-gry-sel)) brightness(var(--color-svg-blue-bri-sel)) saturate(var(--color-svg-blue-sat-sel)) hue-rotate(var(--color-svg-blue-hue-sel));
+}
+.tabs input[type="radio"]+label .text.blue {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-blue-unsel);
+}
+.tabs input[type="radio"]:checked+label .text.blue {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-blue);
+}
+
+label .icon.purple {
+    opacity: var(--opacity-svg-purple-unsel);
+    filter:
+        grayscale(var(--color-svg-purple-gry-unsel)) brightness(var(--color-svg-purple-bri-unsel)) saturate(var(--color-svg-purple-sat-unsel)) hue-rotate(var(--color-svg-purple-hue-unsel));
+}
+.tabs input[type="radio"]:hover+label .icon.purple {
+    opacity: var(--opacity-svg-purple-hover);
+}
+.tabs input[type="radio"]:checked+label .icon.purple {
+    opacity: var(--opacity-svg-purple-sel);
+    filter:
+        grayscale(var(--color-svg-purple-gry-sel)) brightness(var(--color-svg-purple-bri-sel)) saturate(var(--color-svg-purple-sat-sel)) hue-rotate(var(--color-svg-purple-hue-sel));
+}
+.tabs input[type="radio"]+label .text.purple {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-purple-unsel);
+}
+.tabs input[type="radio"]:checked+label .text.purple {
+    transition: color 0.2s ease-out;
+    color: var(--color-data-bg-text-purple);
+}
+
+/* 
+#tab0 + label .icon {
+    filter: grayscale(var(--ui-data-sidebar-tab0-grayscale)) brightness(var(--ui-data-sidebar-tab-brightness-unsel)) saturate(var(--ui-data-sidebar-tab-saturation-unsel)) hue-rotate(var(--ui-data-sidebar-tab0-hue)) saturate(var(--ui-data-sidebar-tab-saturation-unsel));
+}
+#tab1 + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-unsel)) hue-rotate(var(--ui-data-sidebar-tab1-hue)) saturate(var(--ui-data-sidebar-tab-saturation-unsel));
+}
+#tab2 + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-unsel)) hue-rotate(var(--ui-data-sidebar-tab2-hue)) saturate(var(--ui-data-sidebar-tab-saturation-unsel));
+}
+#tab3 + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-unsel)) hue-rotate(var(--ui-data-sidebar-tab3-hue)) saturate(var(--ui-data-sidebar-tab-saturation-unsel));
+}
+#tab4 + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-unsel)) hue-rotate(var(--ui-data-sidebar-tab4-hue)) saturate(var(--ui-data-sidebar-tab-saturation-unsel));
+}
+#tab0:checked + label .icon {
+    filter: grayscale(var(--ui-data-sidebar-tab0-grayscale)) brightness(var(--ui-data-sidebar-tab-brightness-sel)) hue-rotate(var(--ui-data-sidebar-tab0-hue)) saturate(var(--ui-data-sidebar-tab-saturation-sel));
+}
+#tab1:checked + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-sel)) hue-rotate(var(--ui-data-sidebar-tab1-hue)) saturate(var(--ui-data-sidebar-tab-saturation-sel));
+}
+#tab2:checked + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-sel)) hue-rotate(var(--ui-data-sidebar-tab2-hue)) saturate(var(--ui-data-sidebar-tab-saturation-sel));
+}
+#tab3:checked + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-sel)) hue-rotate(var(--ui-data-sidebar-tab3-hue)) saturate(var(--ui-data-sidebar-tab-saturation-sel));
+}
+#tab4:checked + label .icon {
+    filter: brightness(var(--ui-data-sidebar-tab-brightness-sel)) hue-rotate(var(--ui-data-sidebar-tab4-hue)) saturate(var(--ui-data-sidebar-tab-saturation-sel));
+} */

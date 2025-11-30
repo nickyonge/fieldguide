@@ -1,0 +1,230 @@
+/* Hamburger Button - Multidesign by nickyonge on uiverse.io
+   https://uiverse.io/nickyonge/terrible-sloth-91 */
+
+/* --- added or modified for evto --- */
+@import '../vars.css';
+/* --- end modifications --- */
+
+.burger {
+    /* uncomment the block for the design
+   * that you want to use */
+
+    /* ----- SELECTED BUTTON DESIGN ----- */
+
+    /* --- X/CANCEL [X] --- */
+    --b2-checked-left: 0%;
+    --b1-checked-rotation: 45deg;
+    --b3-checked-rotation: -45deg;
+    --b1-checked-top: 7.573667%;
+    --b3-checked-top: 92.426333%;
+    --b1-checked-hover-top: 2.859667%;
+    --b3-checked-hover-top: 97.140333%;
+    --b-checked-left: 18.18025%;
+    --b-checked-hover-left: 14.64475%;
+
+    /* --- LEFT ARROW [<] --- */
+    /* --b2-checked-left: 100%;
+  --b1-checked-rotation: -20.556deg;
+  --b3-checked-rotation: 20.556deg;
+  --b1-checked-top: 41.6667%;
+  --b3-checked-top: 41.6667%;
+  --b1-checked-hover-top: 41.6667%;
+  --b3-checked-hover-top: 41.6667%;
+  --b-checked-left: 0%;
+  --b-checked-hover-left: 0%;  */
+
+    /* --- RIGHT ARROW [>] --- */
+    /* --b2-checked-left: 0%;
+  --b1-checked-rotation: 20.556deg;
+  --b3-checked-rotation: -20.556deg;
+  --b1-checked-top: 7.865333%;
+  --b3-checked-top: 92.134667%;
+  --b1-checked-hover-top: 3.183667%;
+  --b3-checked-hover-top: 96.816333%;
+  --b-checked-left: 15.73025%;
+  --b-checked-hover-left: 6.367%;  */
+
+    /* ----- UNSELECTED HAMBURGER DESIGN ----- */
+
+    /* --- BEEHIVE --- */
+    --hamburger1-left: 12%;
+    --hamburger1-width: 76%;
+    --hamburger2-left: 5%;
+    --hamburger2-width: 90%;
+    --hamburger3-left: 12%;
+    --hamburger3-width: 76%;
+
+    /* --- NORMAL --- */
+    /* --hamburger1-left: 7%;
+  --hamburger1-width: 86%;
+  --hamburger2-left: 7%;
+  --hamburger2-width: 86%;
+  --hamburger3-left: 7%;
+  --hamburger3-width: 86%; */
+
+    /* --- /FORWARD ANGLE/ --- */
+    /* --hamburger1-left: 19%;
+  --hamburger1-width: 76%;
+  --hamburger2-left: 5%;
+  --hamburger2-width: 90%;
+  --hamburger3-left: 5%;
+  --hamburger3-width: 76%; */
+
+    /* --- \BACKWARD ANGLE\ --- */
+    /* --hamburger1-left: 5%;
+  --hamburger1-width: 76%;
+  --hamburger2-left: 5%;
+  --hamburger2-width: 90%;
+  --hamburger3-left: 19%;
+  --hamburger3-width: 76%; */
+
+    /* ----- OTHER VARIABLES ----- */
+
+    --outer-input-buffer-size: -10px;
+    --line-width: 4px;
+
+    position: relative;
+    width: 40px;
+    height: 30px;
+    background: none;
+    cursor: pointer;
+
+    /* --- added or modified for evto --- */
+    display: inline;
+    float: right;
+    /* top: calc(50% - 15px); */
+    top: 20px;
+    left: -15px;
+    /* --- end modifications --- */
+
+    z-index: 75;
+}
+
+.burger input {
+    display: none;
+}
+
+.burger::before {
+    content: "";
+    position: absolute;
+    top: var(--outer-input-buffer-size);
+    left: var(--outer-input-buffer-size);
+    right: var(--outer-input-buffer-size);
+    bottom: var(--outer-input-buffer-size);
+}
+
+.burger span {
+    display: flex;
+    position: absolute;
+    height: var(--line-width);
+    width: 100%;
+    /* --- added or modified for evto --- */
+    background: var(--color-ui-button);
+    /* --- end modifications --- */
+    border-radius: var(--line-width);
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: 0.213s cubic-bezier(0.127, 0, 0, 1);
+}
+
+.burger span:nth-of-type(1) {
+    left: var(--hamburger1-left);
+    width: var(--hamburger1-width);
+    top: 0%;
+    transform-origin: left center;
+}
+
+.burger span:nth-of-type(2) {
+    top: 50%;
+    left: var(--hamburger2-left);
+    width: var(--hamburger2-width);
+    transform: translateY(-50%);
+    transform-origin: right center;
+}
+
+.burger span:nth-of-type(3) {
+    left: var(--hamburger3-left);
+    width: var(--hamburger3-width);
+    top: 100%;
+    transform-origin: left center;
+    transform: translateY(-100%);
+}
+
+.burger:is(:hover, :focus-visible) span:nth-of-type(1) {
+    left: 0%;
+    width: 100%;
+}
+.burger:is(:hover, :focus-visible) span:nth-of-type(2) {
+    left: 0%;
+    width: 100%;
+}
+.burger:is(:hover, :focus-visible) span:nth-of-type(3) {
+    left: 0%;
+    width: 100%;
+}
+/*
+.burger:is(:hover, :focus-visible) span:nth-of-type(1) {
+    left: 0%;
+    width: 100%;
+}
+.burger:is(:hover, :focus-visible) span:nth-of-type(2) {
+    left: 0%;
+    width: 100%;
+}
+.burger:is(:hover, :focus-visible) span:nth-of-type(3) {
+    left: 0%;
+    width: 100%;
+} */
+
+.burger input:checked~span:nth-of-type(2) {
+    width: 0%;
+    left: var(--b2-checked-left);
+    opacity: 0;
+}
+
+.burger input:checked~span:nth-of-type(1) {
+    width: 90%;
+    left: var(--b-checked-left);
+    transform: rotate(var(--b1-checked-rotation));
+    top: var(--b1-checked-top);
+}
+.burger input:checked~span:nth-of-type(3) {
+    width: 90%;
+    left: var(--b-checked-left);
+    transform: rotate(var(--b3-checked-rotation));
+    top: var(--b3-checked-top);
+}
+
+.burger:is(:hover, :focus-visible) input:checked ~ span:nth-of-type(1) {
+    width: 100%;
+    left: var(--b-checked-hover-left);
+    top: var(--b1-checked-hover-top);
+}
+.burger:is(:hover, :focus-visible) input:checked ~ span:nth-of-type(3) {
+    width: 100%;
+    left: var(--b-checked-hover-left);
+    top: var(--b3-checked-hover-top);
+}
+
+/* .burger:is(:checked:hover, :checked:focus-visible) span:nth-of-type(1) {
+    width: 100%;
+    left: var(--b-checked-hover-left);
+    top: var(--b1-checked-hover-top);
+}
+.burger:is(:checked:hover, :checked:focus-visible) span:nth-of-type(3) {
+    width: 100%;
+    left: var(--b-checked-hover-left);
+    top: var(--b3-checked-hover-top);
+} */
+/*
+.burger:is(:checked, :hover, :focus-visible) span:nth-of-type(1) {
+    width: 100%;
+    left: var(--b-checked-hover-left);
+    top: var(--b1-checked-hover-top);
+}
+.burger:is(:checked, :hover, :focus-visible) span:nth-of-type(3) {
+    width: 100%;
+    left: var(--b-checked-hover-left);
+    top: var(--b3-checked-hover-top);
+} */

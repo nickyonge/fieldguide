@@ -1,0 +1,161 @@
+dataWindow {
+    /* wide dataWindow = */
+    /* display: inline-flex; */
+    /* height: 100%; */
+    overflow: hidden;
+    margin: var(--ui-data-window-margin);
+    border-radius: var(--ui-data-window-radius);
+    box-shadow: 0px 6px 9px -2.13px var(--ui-data-window-bg-shadow);
+    background-color: var(--ui-data-window-bg-color);
+    transition: background-color 0.25s ease-out;
+    z-index: -1;
+}
+
+/* test removing issue 4 to-do */
+
+/* TODO: make tab sidebar narrower when window is tall (esp on left) (new) */
+/* Issue URL: https://github.com/nickyonge/evto-web/issues/34 */
+
+/* tall dataWindow [] */
+@media screen and (min-aspect-ratio: 1.2) {
+    dataWindow {
+        margin-left: var(--ui-data-window-dwPortrait-margin-left);
+    }
+    dataWindow.dataOnLeft {
+        margin-left: var(--ui-data-window-margin-leftright);
+        margin-right: var(--ui-data-window-dwPortrait-margin-left);
+    }
+
+    /* match width to var(--viewport-bottombar-wrap) in vars.css */
+    @media screen and (max-width: 750px) {
+        dataWindow {
+            /* height: calc(auto); */
+            /* margin-bottom: 0px; */
+            /* margin: var(--ui-data-window-margin); */
+            margin-bottom: var(--ui-footer-kickstarter-wrap-bottom);
+        }
+        dataWindow.dataOnLeft {
+            margin-bottom: var(--ui-data-window-margin-topbottom)
+        }
+    }
+}
+
+/* wide dataWindow = */
+@media screen and (max-aspect-ratio: 1.2) {
+    dataWindow {
+        margin-top: var(--ui-data-window-dwLandscape-margin-top);
+    }
+    dataWindow.dataOnTop {
+        margin-top: var(--ui-data-window-margin-topbottom);
+    }
+
+    /* match width to var(--viewport-bottombar-wrap) in vars.css */
+    @media screen and (max-width: 750px) {
+        dataWindow {
+            /* height: calc(auto); */
+            /* margin-bottom: 0px; */
+            /* margin: var(--ui-data-window-margin); */
+            margin-bottom: var(--ui-footer-kickstarter-wrap-bottom);
+        }
+        dataWindow.dataOnTop {
+            margin-bottom: var(--ui-data-window-margin-topbottom)
+        }
+    }
+}
+
+
+dataWindow .content {
+    display: flex;
+    width: auto;
+    height: 100%;
+    /* float:none; */
+    overflow: hidden;
+    position: relative;
+    color: var(--color-data-bg-text-default);
+}
+
+dataWindow .content .page {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    inset: 0px;
+    padding: var(--ui-data-page-padding);
+    margin-right: var(--ui-data-page-margin-right);
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+dataWindow .content h2 {
+    margin-top: -4.20px;
+    text-align: center;
+    justify-content: center;
+}
+
+dataWindow .fadeBG {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    top: -100%;
+    overflow: hidden;
+    background-color: var(--ui-data-window-bg-color-transparent);
+    background: linear-gradient(to right,
+            var(--ui-data-window-bg-color-transparent) 0%,
+            var(--ui-data-window-bg-color) 169%);
+    z-index: -1;
+}
+
+dataWindow .page > .grid,
+dataWindow .page .section > .grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 0px;
+}
+dataWindow .page > .grid[forceSingleColumn="true"],
+dataWindow .page > .grid[singleColumn="true"]:not([forceSingleColumn]),
+dataWindow .page > .grid[singleColumn="true"][forceSingleColumn="true"],
+dataWindow .page .section > .grid[forceSingleColumn="true"],
+dataWindow .page .section > .grid[singleColumn="true"]:not([forceSingleColumn]),
+dataWindow .page .section > .grid[singleColumn="true"][forceSingleColumn="true"] {
+    grid-template-columns: repeat(1, 1fr);
+    /* grid-template-rows: repeat(auto-fit, minmax(nub, 1fr)); */
+    grid-column-gap: 0px;
+}
+
+dataWindow .page .sectionContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-top: 5px;
+}
+
+dataWindow .page .section {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0ms;
+}
+
+dataWindow .page .section.active {
+    opacity: 1;
+    z-index: 3;
+    transition: opacity 400ms ease-out;
+}
+
+/* 
+dataWindow .page .section.pattern {
+    background-color: #ff0000;
+}
+dataWindow .page .section.colors {
+    background-color: #0000ff;
+}
+ */

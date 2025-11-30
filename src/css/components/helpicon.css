@@ -1,0 +1,62 @@
+.helpDiv {
+    /* background-color: red; */
+    position: relative;
+    display: inline-flex;
+    /* z-index: 1000000; */
+    cursor: pointer;
+    opacity: 0.69;
+    margin-left: var(--ui-helpIcon-leftMargin);
+    width: calc(var(--ui-helpIcon-size) + var(--ui-helpIcon-borderWidth));
+    height: calc(var(--ui-helpIcon-size) + var(--ui-helpIcon-borderWidth));
+    aspect-ratio: 1;
+    padding-bottom: var(--ui-helpIcon-bottomPadding);
+    padding-left: calc(var(--ui-helpIcon-bottomPadding) * 0.5);
+    padding-right: calc(var(--ui-helpIcon-bottomPadding) * 0.5);
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: calc(var(--ui-helpIcon-size) + var(--ui-helpIcon-bottomPadding) + var(--ui-helpIcon-borderWidth));
+    box-sizing: border-box;
+    border: var(--ui-component-color-bg) solid var(--ui-helpIcon-borderWidth);
+    /* overflow: hidden; */
+    
+    transition-property: opacity, border-width;
+    transition-duration: 200ms, 150ms;
+}
+
+.helpExpansionDiv {
+    display: flex;
+    height: 100%;
+    flex: 1;
+    /* background-color: red; */
+}
+
+.helpDiv.togglePos {
+    position: relative;
+    /* margin-left: calc(var(--ui-component-toggle-width) + var(--ui-helpIcon-leftMargin-toggle)); */
+}
+
+.helpQIcon {
+    color: var(--ui-component-color-bg);
+    font-size: var(--ui-helpIcon-qText);
+    font-weight: normal;
+    /* position: absolute; */
+    justify-content: center;
+    /* vertical-align: bottom; */
+}
+
+.helpIcon {
+    width: var(--ui-helpIcon-size);
+    height: var(--ui-helpIcon-size);
+}
+
+.helpDiv:focus-visible,
+.helpDiv:hover {
+    opacity: 0.9;
+    border-width: var(--ui-helpIcon-borderWidth-hover);
+}
+
+.helpDiv:focus-visible > .helpQIcon,
+.helpDiv:hover > .helpQIcon {
+    font-weight: bold;
+}

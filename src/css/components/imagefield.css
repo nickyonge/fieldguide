@@ -1,0 +1,46 @@
+.imageField {
+    --imageField-min-size: 20px;
+    /** maximum POSSBILE size of an imageField */
+    --imageField-max-size: 69vw;
+}
+
+.imageField.container {
+    display: flex;
+    position: relative;
+    width: attr(width, 100%);
+    height: attr(height, auto);
+    min-width: attr(min-width, attr(min-size, var(--imageField-min-size)));
+    min-height: attr(min-height, attr(min-size, var(--imageField-min-size)));
+    max-width: attr(max-width, attr(max-size, var(--imageField-max-size)));
+    max-height: attr(max-height, attr(max-size, var(--imageField-max-size)));
+    aspect-ratio: attr(aspect-ratio, initial);
+    justify-self: center;
+}
+
+.imageField.container .image {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+}
+.imageField.container > .image:first-child,
+.imageField.container > :has(+ .image):not(.image) + .image {
+    position: relative;
+    padding: 0px;
+}
+.imageField .canvasSizedImg {
+    min-height: calc(attr(min-width, attr(min-size, var(--imageField-min-size))) * 0.5);
+    max-height: calc(attr(max-width, attr(max-size, var(--imageField-max-size))) * 0.5);
+    aspect-ratio: attr(aspect-ratio, 2);
+}
+.imageField img.image.canvasSizedImg {
+    max-width: 100%;
+}
+.imageField .onBottom {
+    z-index: -1;
+}
+.imageField .onTop {
+    z-index: 1;
+}

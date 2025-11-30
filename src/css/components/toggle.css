@@ -1,0 +1,65 @@
+/* Toggle Switch with Title */
+/* uiverse.io/nickyonge/kind-pig-96 */
+
+.toggle {
+    display: flex;
+    align-items: center;
+}
+
+.toggle input {
+    display:none;
+}
+
+.toggle .toggleLabel {
+    display: flex;
+    align-items: center;
+    /* flex-direction: row-reverse; */
+    cursor: pointer;
+}
+.toggle .toggleLabel .componentTitle {
+    white-space: nowrap;
+}
+
+.toggle .toggleSwitch {
+    position: relative;
+    width: var(--ui-component-toggle-width);
+    height: var(--ui-component-toggle-height);
+    background-color: var(--ui-component-color-bg);
+    border-radius: calc(var(--ui-component-toggle-height) / 2);
+    transition: background-color 0.2s;
+    overflow: hidden;
+}
+
+.toggle .toggleSwitch::after {
+    content: "";
+    position: absolute;
+    height: var(--ui-component-toggle-knob-inner);
+    width: var(--ui-component-toggle-knob-inner);
+    left: var(--ui-component-toggle-knob-offset-left);
+
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border-radius: calc(var(--ui-component-toggle-knob-size) / 2);
+    /* box-shadow: 4px 2px 6.9px rgba(8, 8, 8, 0.27); */
+    border: var(--ui-component-toggle-knob-border) solid var(--ui-component-color-input);
+    transition:
+        transform 0.2s,
+        background-color 0.2s;
+}
+
+.toggle input:checked + .toggleLabel .toggleSwitch {
+    background-color: var(--ui-component-color-enabled-light);
+}
+
+.toggle input:checked + .toggleLabel .toggleSwitch::after {
+    transform: translate(calc(var(--ui-component-toggle-width) - var(--ui-component-toggle-knob-size) - var(--ui-component-toggle-knob-offset-left) - var(--ui-component-toggle-knob-offset-right)),
+            -50%);
+    /* transform: translate(calc(), -50%); */
+    background-color: var(--ui-component-color-input);
+    /* background-color: white; */
+}
+
+.toggle input:checked + .toggleLabel .switchtitle {
+    opacity: 1;
+}

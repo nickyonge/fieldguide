@@ -1,0 +1,84 @@
+/* mailing list text input
+https://uiverse.io/alexruix/evil-parrot-59 */
+
+.minput-group {
+    display: inline;
+    vertical-align: top;
+    position: relative;
+    width: calc(var(--ui-footer-email-bar-width) + var(--ui-footer-email-btn-width));
+
+    /* left justify */
+    float: none;
+
+    /* right justify */
+    /* float: right;
+    padding-right: 25px; */
+}
+
+.minput {
+    padding: 0;
+    display: inline;
+    position: relative;
+    height: var(--ui-footer-email-bar-height);
+    width: calc(var(--ui-footer-email-bar-width) - var(--ui-footer-email-bar-iconspace) - 10px);
+    max-width: calc(100vw - 335px);
+    padding-left: var(--ui-footer-email-bar-iconspace);
+    /* text-indent: -5px; */
+    padding-right: var(--ui-footer-email-bar-gap);
+    color: var(--color-ui-ultralight);
+    font-size: 10pt;
+    border: none;
+    border-radius: var(--ui-footer-email-bar-border-radius-text);
+    background-color: #183e8569;
+    font-family: 'Inclusive Sans', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+/* match width to var(--viewport-bottombar-wrap) in vars.css */
+@media screen and (max-width: 750px) {
+    .minput-group {
+        float: right;
+        /* margin-right: 10px; */
+        right: 10px;
+    }
+    .minput {
+        max-width: auto;
+    }
+}
+
+.minput::placeholder {
+    color: var(--color-text-body);
+}
+
+.mbuttonSubmit {
+    font-family: 'Inclusive Sans', 'Helvetica Neue', Helvetica, sans-serif;
+    display: inline;
+    position: relative;
+    height: var(--ui-footer-email-bar-height);;
+    /* contain: size; */
+    overflow: hidden;
+    width: 100px;
+    border: none;
+    border-radius: var(--ui-footer-email-bar-border-radius-button);
+    background-color: var(--color-ui-light);
+    color: var(--color-ui-ultradark);
+    font-size: 10pt;
+    text-indent: -6.9px;
+    cursor: pointer;
+    transition: all 0.169s ease-out;
+}
+
+.mbuttonSubmit:hover,
+.mbuttonSubmit:focus-visible {
+    background-color: var(--color-ui-verylight);
+    color: var(--color-ui-black);
+}
+
+.mbuttonSubmit:active {
+    background-color: var(--color-ui-active);
+    color: var(--color-ui-black);
+}
+
+.minput:focus,
+.minput:focus-visible {
+    outline: none;
+}

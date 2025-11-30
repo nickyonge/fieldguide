@@ -28,7 +28,7 @@ function DemoDiv() {
     let inner = document.createElement('div');
     
     // apply classes
-    container.classList.add('container');
+    container.classList.add('simpleContainer');
     inner.classList.add('inner');
     
     // add content

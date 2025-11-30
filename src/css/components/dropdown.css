@@ -1,0 +1,163 @@
+/* N-Value Dropdown List
+https://uiverse.io/nickyonge/soft-zebra-63 */
+
+.dropdownContainer {
+    width: 100%;
+    max-width: 100%;
+    min-height: 32px;
+    height: 40px;
+    margin-bottom: 10px;
+    /* display: block; */
+}
+
+.dropdown {
+    display: inline-flex;
+    flex-direction: column;
+    z-index: 10;
+    cursor: pointer;
+    position: fixed;
+    color: var(--ui-component-color-input);
+    /* width: 200px; */
+    max-height: 30px;
+    border-radius: 5px;
+    overflow: hidden;
+    transition:
+        max-height 300ms,
+        z-index 0s 120ms;
+}
+
+.ddSelected {
+    background-color: var(--ui-component-color-bg);
+    padding: 5px;
+    margin-bottom: 3px;
+    border-radius: 5px;
+    margin-right: -20px;
+    position: relative;
+    z-index: 21;
+    display: flex;
+    align-items: center;
+    transition: all 300ms, clip-path 0s;
+    height: 12px;
+    clip-path: inset(0px 0px 0px 0px);
+}
+
+.ddSelected::before {
+    z-index: 22;
+    content: attr(data-label);
+    /* margin-right: inherit; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* TODO: dropdown arrow isn't appearing for some unknown reason? make arrow appear as per UIVerse demo linked at top */
+/* Issue URL: https://github.com/nickyonge/evto-web/issues/3 */
+.ddArrow {
+    /* display: block; */
+    position: relative;
+    right: 0px;
+    height: 10px;
+    transform: rotate(-90deg);
+    z-index: 11;
+    width: 25px;
+    fill: var(--ui-component-color-input);
+    transition: 300ms;
+}
+.ddArrow path {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /* fill: red !important; */
+    /* background-color: blue; */
+}
+
+.ddOptions {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    padding: 4px 2px;
+    top: -50px;
+    position: relative;
+    z-index: 11;
+    background: linear-gradient(0deg, var(--ui-component-color-bg-border) 0%, var(--ui-component-color-bg) 100%);
+    opacity: 0;
+    gap: 2px;
+    transition: 300ms;
+    box-sizing: border-box;
+}
+
+.dropdown:focus-visible,
+.dropdown:has(:focus-visible),
+.dropdown:hover {
+    max-height: var(--ui-component-dropdown-max-height);
+    z-index: 20;
+    transition:
+        max-height 300ms ease,
+        z-index 0s 0s;
+}
+
+.dropdown:focus-visible > .ddOptions,
+.ddSelected:focus-visible > .ddOptions,
+.dropdown:has(:focus-visible) > .ddOptions,
+.dropdown:hover > .ddOptions {
+    /* :has(:focus-visible) seems to emulate :focus-visible-within, cuz why not */
+    opacity: 1;
+    top: 0px;
+    transition: 300ms;
+    max-height: var(--ui-component-dropdown-max-height);
+}
+.dropdown:focus-visible > .ddSelected .ddArrow,
+.ddSelected:focus-visible > .ddSelected .ddArrow,
+.dropdown:hover > .ddSelected .ddArrow {
+    transform: rotate(0deg);
+}
+.dropdown:focus-visible > .ddSelected,
+.ddSelected:focus-visible > .ddSelected,
+.dropdown:hover > .ddSelected {
+    transition: 300ms;
+    background-color: var(--ui-component-color-bg-highlight);
+}
+.ddOption:focus-visible,
+.ddSelected:focus-visible,
+.ddOption:hover {
+    background-color: var(--ui-component-color-bg-highlight);
+}
+
+.ddOption {
+    border-radius: 5px;
+    padding: 5px 5px;
+    transition: 300ms;
+    background-color: var(--ui-component-color-bg-highlight-transparent);
+}
+.ddOptions input[type="radio"] {
+    display: none;
+}
+
+.ddOptions label {
+    overflow-wrap: break-word;
+    display: block;
+    width: calc(100% - 10px);
+    cursor: pointer;
+    color: var(--ui-component-color-input);
+}
+.ddOptions label.withCost {
+    width: calc(100% - 30px);
+    padding-right: 25px;
+    /* margin-right: 300px; */
+
+}
+
+.ddOptions label::before {
+    content: attr(data-txt);
+}
+
+.ddOptions input[type="radio"]:checked + label {
+    /* use background-color to highlight selected option, or use display:none to hide it */
+    background-color: var(--ui-component-color-enabled-dark);
+    /* color: var(--ui-component-color-text); */
+    /*display: none;*/
+}
+
+.ddOptions input[type="radio"]:checked + label::before {
+    content: attr(data-txt);
+}

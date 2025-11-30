@@ -1,0 +1,213 @@
+@property --slider-value {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 50%;
+}
+
+.slider {
+    /* slider variables */
+    --slider-thumb-color: var(--ui-component-color-enabled-light);
+    --slider-track-base-color: var(--ui-component-color-bg);
+    --slider-track-highlight-color: var(--ui-component-color-enabled-dark);
+
+    --slider-track-height: 10px;
+    --slider-track-radius: calc(var(--slider-track-height) / 2);
+    
+    --slider-tickmark-opacity-a: 0.15;
+    --slider-tickmark-opacity-b: 0.3;
+    --slider-tickmark-opacity-middle: 0.69;
+    --slider-tickmark-opacity-origin: 0.15;
+
+    --slider-thumb-size: 15px;
+    --slider-thumb-radius: calc(var(--slider-thumb-size) / 2);
+    --slider-thumb-border-width: 2px;
+    --slider-thumb-border-offset: 1.69px;
+
+    --slider-thumb-border-appear-time: 169ms;
+    --slider-thumb-border-disappear-time: 100ms;
+
+    --slider-bg-z-index: 1;
+    --slider-thumb-z-index: 2;
+
+    --min-height-with-title: calc(var(--ui-component-title-height) + max(var(--slider-track-height), var(--slider-thumb-size)));
+    --min-height-without-title: max(var(--slider-track-height), var(--slider-thumb-size));
+}
+
+.slider {
+    position: relative;
+    display: block;
+    height: max-content;
+    /* failsafe default height assignment */
+    min-height: var(--min-height-with-title);
+}
+
+/* set the height based on the presence of a componentTitle child and its display setting */
+.slider:has(> .componentTitle):not(:has(> .componentTitle[style*="display:none"])),
+.slider:has(> .componentTitle):not(:has(> .componentTitle[style*="display: none"])) {
+    /* slider HAS a title, and it IS visible (specifically, it is not invisible) */
+    min-height: var(--min-height-with-title);
+}
+.slider:not(:has(> .componentTitle)),
+.slider:has(> .componentTitle):has(> .componentTitle[style*="display:none"]),
+.slider:has(> .componentTitle):has(> .componentTitle[style*="display: none"]) {
+    /* slider doesn't have a componentTitle child, or it does AND it's invisible */
+    min-height: var(--min-height-without-title);
+}
+
+.slider.container {
+    width: 100%;
+    height: max-content;
+    position: relative;
+    border-radius: var(--slider-track-radius);
+    align-content: center;
+    justify-content: center;
+}
+
+.slider .sbg {
+    position: absolute;
+    left: calc(var(--slider-thumb-size) * 0.75);
+    transform: translate(0%, -125%);
+    width: calc(100% - (var(--slider-thumb-size) * 1.25));
+    height: var(--slider-track-height);
+    border-radius: var(--slider-track-radius);
+    /* simple slider: hard cutoff between highlight and base */
+    background: linear-gradient(to right,
+            var(--slider-track-highlight-color, var(--slider-track-base-color)) var(--slider-value),
+            var(--slider-track-base-color) 0);
+    /* gradient slider: for transparent thumbs, makes a gradient that appears inside the width of the slider thumb */
+    /*     background: linear-gradient(
+        to right,
+        var(--slider-track-highlight-color, var(--slider-track-base-color))
+            calc(var(--slider-value) - (var(--slider-thumb-size) / 4)),
+        var(--slider-track-base-color)
+            calc(var(--slider-value) + (var(--slider-thumb-size) / 4))
+    ); */
+    z-index: var(--slider-bg-z-index);
+}
+
+.slider .sinput {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+    z-index: var(--slider-thumb-z-index);
+    display: flex;
+}
+
+/* removes the default focus outline */
+/* .slider .sinput:focus {
+    outline: none;
+} */
+
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* WK slider track */
+.slider .sinput::-webkit-slider-runnable-track {
+    background-color: none;
+    border-radius: var(--slider-track-radius);
+    height: var(--slider-track-height);
+    z-index: var(--slider-thumb-z-index);
+}
+
+/* WK slider thumb */
+.slider .sinput::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    /* top: 0; */
+    /* left: 0; */
+    top: calc(((var(--slider-thumb-size) - var(--slider-track-height)) * -0.675));
+    position: relative;
+    display: block;
+    /* margin-top: min(calc(var(--slider-thumb-size) / -4),calc((var(--slider-track-height) / 2) - (var(--slider-thumb-size) / 2))); */
+    /* margin-top: calc(var(--slider-thumb-size) / -4);
+    margin-top: calc((var(--slider-track-height) / 2) - (var(--slider-thumb-size) / 2)); */
+    background-color: var(--slider-thumb-color);
+    border-radius: var(--slider-thumb-radius);
+    height: var(--slider-thumb-size);
+    width: var(--slider-thumb-size);
+    outline: 0px solid var(--slider-thumb-color);
+    outline-offset: var(--slider-thumb-border-offset);
+    transition: all var(--slider-thumb-border-disappear-time) ease-out;
+    z-index: var(--slider-thumb-z-index);
+}
+
+.slider .sinput:focus::-webkit-slider-thumb {
+    outline: var(--slider-thumb-border-width) solid var(--slider-thumb-color);
+    outline-offset: var(--slider-thumb-border-offset);
+    transition: all var(--slider-thumb-border-appear-time) ease-out;
+}
+
+/*********** Firefox styles ***********/
+/* FF slider track */
+.slider::-moz-range-track {
+    background-color: none;
+    border-radius: var(--slider-track-radius);
+    height: var(--slider-track-height);
+    z-index: var(--slider-thumb-z-index);
+}
+
+/* FF slider thumb */
+.slider .sinput::-moz-range-thumb {
+    background-color: var(--slider-thumb-color);
+    /*Removes extra border that FF applies*/
+    border: none;
+    border-radius: var(--slider-thumb-radius);
+    height: var(--slider-thumb-size);
+    width: var(--slider-thumb-size);
+    z-index: var(--slider-thumb-z-index);
+}
+.slider .sinput:focus::-moz-range-thumb {
+    outline: var(--slider-thumb-border-width) solid var(--slider-thumb-color);
+    outline-offset: var(--slider-thumb-border-offset);
+    transition: all var(--slider-thumb-border-appear-time) ease-out;
+}
+
+/* text indicator */
+.slider .stext {
+    font-style: italic;
+    font-size: 8.5pt;
+    align-self: flex-end;
+    margin-bottom: 1px;
+    margin-left: auto;
+    margin-right: 5px;
+    opacity: 69%;
+}
+
+/* tickmarks */
+
+.slider .stickmarks {
+    position: absolute;
+    top: 0;
+    /* Position below the slider */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.slider .stickmarks span {
+    width: 1px;
+    /*     margin-top: calc(var(--slider-track-height) * 0.125);
+    height: calc(var(--slider-track-height) * 0.75); */
+    height: var(--slider-track-height);
+    background: linear-gradient(to top,
+            #acc2b869 0%,
+            #affcf5db 69%,
+            #498582e3 100%);
+    opacity: var(--slider-tickmark-opacity-a);
+}
+.slider .stickmarks span:first-child,
+.slider .stickmarks span:last-child {
+    visibility: hidden;
+}
+.slider .stickmarks span:nth-child(even):nth-last-child(even) {
+    /* .slider .stickmarks span:nth-child(odd):nth-last-child(odd) { */
+    opacity: var(--slider-tickmark-opacity-b);
+}
+
+/* 
+ *  autogenerated slider CSS in slider.js 
+.slider .stickmarks span:nth-child(1):nth-last-child(1),
+ ... 
+.slider .stickmarks span:nth-child(100):nth-last-child(100) {
+    opacity: var(--slider-tickmark-opacity-middle);
+} 
+*/

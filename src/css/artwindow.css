@@ -1,0 +1,142 @@
+/* HORIZONTAL ORIENTATION, eg desktop / landscape tablet */
+/* @media screen and (min-aspect-ratio: 1.2) { } */
+
+/* VERTICAL ORIENTATION, eg phone / portrait tablet */
+/* @media screen and (max-aspect-ratio: 1.2) { } */
+
+artWindow {
+    display: flex;
+    flex-direction: column;
+}
+
+artWindow .canvas {
+    display: flex;
+    width: 100%;
+    height: var(--ui-art-flexHeight-canvasRatio);
+    /* background-color: #aaaaaa69; */
+}
+
+artWindow .canvas .inner {
+    display: block;
+    z-index: 1;
+    margin-left: var(--ui-art-canvas-inner-inset-leftright);
+    margin-top: var(--ui-art-canvas-inner-inset-topbottom);
+    width: calc(100% - (var(--ui-art-canvas-inner-inset-leftright) * 2));
+    height: calc(100% - (var(--ui-art-canvas-inner-inset-topbottom) * 2));
+}
+artWindow .canvas .inner:before {
+    /* rounded border WITH gradient */
+    content: "";
+    z-index: 0;
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    inset: 0px;
+    padding: var(--ui-art-canvas-border-width);
+    border-radius: var(--ui-art-canvas-border-radius);
+    background: linear-gradient(69deg, #d2e0fad5 0%, #B1BEE069 100%);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+artWindow .info {
+    /* background-color: #0000ff69; */
+    display: flex;
+    /* width: 100%; */
+    height: var(--ui-art-flexHeight-infoRatio);
+}
+artWindow .info .inner {
+    background-color: #434f6369;
+    /* z-index: 1; */
+    position: relative;
+    display: flex;
+
+    border: solid var(--ui-art-info-border-width) #f2f1f38e;
+    border-image: linear-gradient(169deg, #c2d1d3cb 0%, #a2c1f369 100%);
+    border-image-slice: 1;
+
+    width: 100%;
+    height: calc(100% - var(--ui-art-info-border-top) - var(--ui-art-info-border-bottom));
+    margin-top: var(--ui-art-info-border-top);
+    margin-left: var(--ui-art-info-border-sideOuter);
+    margin-right: var(--ui-art-info-border-sideInner);
+}
+artWindow .info .title {
+    /* display:none; */
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    width: 100%;
+    height: var(--ui-art-info-title-height);
+    top: calc(-1 * var(--ui-art-info-title-height));
+    /* background-color: #ff00ff69; */
+}
+artWindow .info .title h3 {
+    /* margin-top: 0px; */
+    align-self: flex-end;
+    margin-bottom: var(--ui-art-info-title-margin-bottom);
+}
+
+/* TODO: LiveNowOnKS button wrap / show info screen on right issues
+Issue URL: https://github.com/nickyonge/evto-web/issues/2
+         must change default window layout pos to see */
+
+/* HORIZONTAL ORIENTATION, eg computer / landscape tablet */
+@media screen and (min-aspect-ratio: 1.2) {
+    artWindow.dataOnLeft .info .inner {
+        margin-right: var(--ui-art-info-border-sideOuter);
+        margin-left: var(--ui-art-info-border-sideInner);
+    }
+    /* KS button is wrapped  */
+    @media screen and (max-width: 750px) {
+        artWindow.dataOnLeft .info {
+            height: var(--ui-art-flexHeight-infoRatio-KS-dataOnLeft);
+        }
+        artWindow.dataOnLeft .info .inner {
+            height: calc(100% - var(--ui-art-info-border-top) - var(--ui-art-info-border-bottom) - var(--ui-footer-kickstarter-wrap-dataOnLeft));
+        }
+    }
+}
+
+/* VERTICAL ORIENTATION, eg phone / portrait tablet */
+@media screen and (max-aspect-ratio: 1.2) {
+
+    artWindow {
+        flex-direction: row;
+    }
+    artWindow.dataOnTop {
+        margin-top: -16.9px;
+    }
+    artWindow .canvas {
+        display: inline-flex;
+        width: 100%;
+        height: 100%;
+    }
+    artWindow .info {
+        display: inline-flex;
+        width: 69%;
+        height: calc(100% - var(--ui-art-info-landscape-height-offset));
+    }
+    artWindow .info .inner {
+        height: calc(100% - var(--ui-art-info-border-top-portraitScreen) - var(--ui-art-info-border-bottom));
+        margin-top: var(--ui-art-info-border-top-portraitScreen);
+        margin-left: var(--ui-art-info-border-sideInner-portraitScreen);
+        margin-right: var(--ui-art-info-border-sideOuter);
+    }
+    artWindow.dataOnTop .info {
+        margin-top: var(--ui-art-info-landscape-dataOnTop-margin-offset);
+    }
+    artWindow.dataOnTop .info .inner {
+        margin-top: var(--ui-art-info-border-top);
+    }
+
+    /* KS button is wrapped  */
+    @media screen and (max-width: 750px) {}
+}

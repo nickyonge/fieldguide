@@ -1,0 +1,16 @@
+.uiComponent {
+    /* background-color: red; */
+    padding: 2px;
+}
+
+.uiComponent .componentTitle {
+    color: var(--ui-component-color-text);
+    margin: 0px 5px 0px 5px;
+    white-space: nowrap;
+    display: flex;
+}
+
+.uiComponent .componentTitle.listTitle {
+    display: flex;
+    height: var(--ui-component-title-height);
+}

@@ -2,13 +2,162 @@
 
     --color-text-body: #171d25;
     --color-text-body-light: #a4c4ef;
-    --color-innerDiv: #beeeef;
     --color-bg-solid: #4680db;
+    --color-bg-solid-semitransparent: #4680db69;
     --color-bg-gradient-1: #4e89db;
     --color-bg-gradient-2: #4680db;
     --color-bg-gradient-3: #225bc8;
+    
+    --color-simpleContainer-innerDiv: #beeeef;
 
-    --innerDiv-width: 213px;
-    --innerDiv-height: 69px;
-    --innerDiv-radius: 27px;
+    --simpleContainer-innerDiv-width: 213px;
+    --simpleContainer-innerDiv-height: 69px;
+    --simpleContainer-innerDiv-radius: 27px;
+
+
+    /* below is imported from evto-web */
+
+    --viewport-bottombar-wrap: 750px;
+
+    --grid-layout-portrait-top: "artWindow";
+    --grid-layout-portrait-bottom: "dataWindow";
+
+    --color-ui-button: #a4c4ef;
+
+    --color-ui-ultralight: #e1f1fd;
+    --color-ui-verylight: #c6e1fa;
+    --color-ui-light: #a4c4ef;
+    --color-ui-dark: #3875d6;
+    --color-ui-verydark: #225bc8;
+    --color-ui-ultradark: #2a4880;
+    --color-ui-black: #01153b;
+
+    --color-ui-light-transparent: #a4c4ef00;
+
+    --color-ui-active: #beeeef;
+
+    --color-ui-costToken-default: #90e88f;
+    --color-ui-costToken-default-bg-inner: #3c4144f0;
+    --color-ui-costToken-default-bg-outer: #4f7e4e69;
+    --color-ui-costToken-default-bg-inner-dark: #4b585c;
+    --color-ui-costToken-default-bg-outer-dark: #4f7e4e69;
+    --color-ui-costToken-selected: #6aeaf8;
+    --color-ui-costToken-selected-bg-inner: #213151f0;
+    --color-ui-costToken-selected-bg-outer: #47736f69;
+    --color-ui-costToken-selected-bg-inner-dark: #384765;
+    --color-ui-costToken-selected-bg-outer-dark: #47736f69;
+
+    --ui-overlay-color-title: #403c8a;
+    --ui-overlay-color-text: #081a3e;
+    --ui-overlay-margin-vertical: 12px;
+    --ui-overlay-margin-horizontal: 10px;
+    --ui-overlay-margin-titlegap: 6px;
+
+    --ui-component-title-height: 18px;
+
+    --ui-component-color-bg: #323133;
+    --ui-component-color-bg-border: #3b3a3d;
+    --ui-component-color-bg-highlight: #424143;
+    --ui-component-color-bg-highlight-transparent: #42414300;
+    --ui-component-color-text: #2a292b;
+    --ui-component-color-text-light: #f2f1f3;
+    --ui-component-color-input: #ffffff;
+    --ui-component-color-enabled-light: #32b38a;
+    --ui-component-color-enabled-dark: #26a079;
+
+    --ui-component-border-radius: 6.9px;
+    --ui-component-border-radius-middle: 3.69px;
+
+    --ui-component-toggle-width: 36px;
+    --ui-component-toggle-height: 24px;
+    --ui-component-toggle-knob-size: 18px;
+    --ui-component-toggle-knob-border: 5px;
+    --ui-component-toggle-knob-offset-left: 3px;
+    --ui-component-toggle-knob-offset-right: 4px;
+    --ui-component-toggle-knob-inner:
+        calc(var(--ui-component-toggle-knob-size) - (var(--ui-component-toggle-knob-border) * 2));
+
+    --ui-component-dropdown-max-height: 169px;
+
+    --ui-component-canvas-inset: 2px;
+
+    --ui-helpIcon-size: 12px;
+    --ui-helpIcon-leftMargin: 4px;
+    --ui-helpIcon-leftMargin-toggle: 10px;
+    --ui-helpIcon-leftMargin-rightJustify: -10px;
+    --ui-helpIcon-bottomPadding: 0px;
+    --ui-helpIcon-qText: 10px;
+    --ui-helpIcon-borderWidth: 1px;
+    --ui-helpIcon-borderWidth-hover: 2px;
+
+    --ui-data-sidebar-tabs-width: 110px;
+
+    --ui-data-sidebar-color-opacity: 1;
+    --ui-data-sidebar-color-text: #525d69;
+    --ui-data-sidebar-color-background: #ffffff69;
+    --ui-data-sidebar-color-shadow-full: #2e364315;
+    --ui-data-sidebar-color-shadow-sharp: #2e364369;
+
+    --ui-data-sidebar-color-text-selected: #525d69;
+    --ui-data-sidebar-color-opacity-hover-selected: 1;
+
+    --ui-data-window-margin-topbottom: 21.3px;
+    --ui-data-window-margin-leftright: 16.9px;
+    --ui-data-window-margin: var(--ui-data-window-margin-topbottom) var(--ui-data-window-margin-leftright);
+    --ui-data-window-dwPortrait-margin-left: 2.13px;
+    --ui-data-window-dwLandscape-margin-top: 2.13px;
+    --ui-data-window-radius: 16.9px;
+    --ui-data-window-bottom-margin: 40px;
+    --ui-data-window-sidebar-rounding: 8px;
+    --ui-data-window-bg-shadow: #22113342;
+    --ui-data-window-bg-color: #ffffffcb;
+    --ui-data-window-bg-color-transparent: #ffffff00;
+
+    --ui-data-page-padding: 16.9px 10px 10px;
+    --ui-data-page-margin-right: 6.9px;
+
+    --ui-art-flexHeight-canvasRatio: 100%;
+    --ui-art-flexHeight-infoRatio: 69%;
+    --ui-art-flexHeight-infoRatio-KS-dataOnLeft: 92%;
+
+    --ui-art-canvas-inner-inset-topbottom: 21.3px;
+    --ui-art-canvas-inner-inset-leftright: 16.9px;
+    --ui-art-canvas-border-width: 1.27px;
+    --ui-art-canvas-border-radius: 21.3px;
+
+    --ui-art-info-title-height: 32px;
+    --ui-art-info-title-margin-bottom: 4.20px;
+    --ui-art-info-border-width: 1.27px;
+    --ui-art-info-border-top: 20px;
+    --ui-art-info-border-sideOuter: 29.75px;
+    --ui-art-info-border-sideInner: 24px;
+    --ui-art-info-border-bottom: 29.75px;
+    --ui-art-info-border-top-portraitScreen: 69px;
+    --ui-art-info-border-sideInner-portraitScreen: 16.9px;
+    --ui-art-info-landscape-height-offset: 16.9px;
+    --ui-art-info-landscape-dataOnTop-margin-offset: 16.9px;
+
+    --ui-header-height: 56px;
+    --ui-footer-height: 40px;
+    --ui-art-window-ratio: 0.8fr;
+
+    --ui-footer-email-bar-width: 250px;
+    --ui-footer-email-bar-height: 30px;
+    --ui-footer-email-bar-border-radius-text: calc(var(--ui-footer-email-bar-height) * 0.5) 0px 0px calc(var(--ui-footer-email-bar-height) * 0.5);
+    --ui-footer-email-bar-border-radius-button: 0px calc(var(--ui-footer-email-bar-height) * 0.5) calc(var(--ui-footer-email-bar-height) * 0.5) 0px;
+    --ui-footer-email-bar-iconspace: 32px;
+    --ui-footer-email-bar-gap: 10px;
+    --ui-footer-emali-btn-width: 100px;
+    --ui-footer-kickstarter-width: 220px;
+    --ui-footer-kickstarter-wrap-bottom: calc(9px + var(--ui-footer-height));
+    --ui-footer-kickstarter-wrap-dataOnLeft: 18px;
+
+    --ui-footer-kickstarter-hover-offset: 6px;
+    --ui-footer-kickstarter-buffer-size: -8px;
+
+
+    /* DEMO COLORS */
+    --demo-bg-navbar: #00000022;
+    --demo-bg-winart: #88888821;
+    --demo-bg-windat: #ffffff23;
 }

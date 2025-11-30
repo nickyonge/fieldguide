@@ -1,0 +1,63 @@
+/* global CSS script to handle pointer events and selection */
+
+html *,
+body *,
+#container * {
+    /* disable all input/selection by default */
+    pointer-events: none;
+    user-select: none;
+    touch-action: none;
+}
+
+#container .selectable,
+#container .uiComponent input {
+    /* selectable element */
+    user-select: text;
+    pointer-events: all;
+}
+
+#container .selectable.noText,
+#container .uiComponent input.noText,
+#container .uiComponent input .noText {
+    /* pointer events valid, no text selection */
+    /* useful for things like buttons with text on em */
+    user-select: none;
+}
+
+#container .scrollable {
+    scrollbar-width: thin;
+    overscroll-behavior-y: none;
+    overflow-y: auto;
+    touch-action: pan-y;
+}
+#container .scrollable * {
+    touch-action: pan-y;
+}
+
+.allowSelectDefaultCursor {
+    user-select: text;
+    -o-user-select: text;
+    -ms-user-select: text;
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -o-user-drag: auto;
+    -ms-user-drag: auto;
+    -moz-user-drag: auto;
+    -khtml-user-drag: auto;
+    -webkit-user-drag: auto;
+    cursor: default;
+}
+.preventSelect {
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-drag: none;
+    -ms-user-drag: none;
+    -moz-user-drag: none;
+    -khtml-user-drag: none;
+    -webkit-user-drag: none;
+}
