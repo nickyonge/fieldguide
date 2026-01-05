@@ -191,13 +191,16 @@ export function StringNumericOnly(str, keepNumericSymbols = true) {
         str = str.replace(/(?!^)-/g, '');
         // preserve initial minus sign
         const isNegative = str.startsWith('-');
-        if (isNegative) { str.slice(1); }
+        if (isNegative) { str = str.slice(1); }
         // keep only digits and decimal point 
         str = str.replace(/[^0-9.]/g, '');
         // remove any decimal that isn't followed by any zeros 
         str = str.replace(/\.(?!.*\d)/g, '');
         // keep only the first decimal, if one is found - remove the rest
-        str = str.replace(/(^[^.]*)\.|[.]/g, (_match, prefix) => prefix !== undefined ? prefix + '.' : ''); // god i hate regex 
+        const decimalIndex = str.indexOf('.');
+        if (decimalIndex >= 0) {
+            str = str.slice(0, decimalIndex + 1) + str.slice(decimalIndex + 1).replace(/\./g, '');
+        }
         // re-apply the initial minus sign, if needed
         if (isNegative) { str = `-${str}`; }
     } else {
