@@ -140,6 +140,9 @@ const OUTPUT_FOLDER = 'dist';
  * {@linkcode SRC_FOLDER}. Must begin with `./` or `/`. @type {string} */
 const INDEX_FILE = './js/index.js';
 
+/** Name of the folder, in both source and dist output, for the CMS. */
+const CMS_FOLDER = 'cms';
+
 // #endregion Config
 
 
@@ -159,6 +162,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 /** A Webpack plugin to remove empty JavaScript files generated when using style-only entries.
  * @see https://github.com/webdiscus/webpack-remove-empty-scripts */
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+/** A Webpack plugin to copy existing individual files or entire directories into the build directory.
+ * @see https://webpack.js.org/plugins/copy-webpack-plugin/ */
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+
+/** Full path of the CMS subfolder. Ignored in module rules, used by {@linkcode CopyWebpackPlugin. @type {string} */
+const CMS_FULL_PATH = path.resolve(__dirname, `${SRC_FOLDER}/${CMS_FOLDER}`);
 
 /** 
  * Defines the runtime build environment
@@ -181,7 +190,7 @@ module.exports = () => {
     return {
 
         /** The runtime build environment, either `"production"` or `"development"`
-         * @see {@linkcode PRODUCTION_BUILD} */ 
+         * @see {@linkcode PRODUCTION_BUILD} */
         mode: environment,
 
         /** Reference to {@linkcode SRC_FOLDER} build path */
@@ -214,7 +223,8 @@ module.exports = () => {
         // see: https://webpack.js.org/configuration/devtool/#devtool
 
         /** Enable webpack dev server so we can locally test 
-         * @see https://webpack.js.org/guides/development/#using-webpack-dev-server */
+         * @see https://webpack.js.org/guides/development/#using-webpack-dev-server 
+         * @see https://webpack.js.org/configuration/dev-server/ */
         devServer: {
             static: OUTPUT_FOLDER,
         },
