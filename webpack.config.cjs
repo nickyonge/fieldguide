@@ -214,6 +214,15 @@ module.exports = () => {
                 chunkFilename: '[name].css',
                 runtime: false,
             }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: CMS_FULL_PATH,
+                        to: CMS_FOLDER,
+                        noErrorOnMissing: true,
+                    },
+                ],
+            }),
         ],
 
         /** Protocol for source mapping, so we can see lines/error info in browser console output
@@ -226,7 +235,11 @@ module.exports = () => {
          * @see https://webpack.js.org/guides/development/#using-webpack-dev-server 
          * @see https://webpack.js.org/configuration/dev-server/ */
         devServer: {
-            static: OUTPUT_FOLDER,
+            static: [
+                OUTPUT_FOLDER,
+                { directory: CMS_FULL_PATH, publicPath: `"/${CMS_FOLDER}` },
+            ],
+            watchFiles: [`${SRC_FOLDER}/${CMS_FOLDER}/**/*`],
         },
 
         /** 
@@ -238,6 +251,7 @@ module.exports = () => {
                 // Jquery 
                 {
                     test: require.resolve("jquery"),
+                    exclude: CMS_FULL_PATH,
                     loader: "expose-loader",
                     options: {
                         exposes: ["$", "jQuery"],
@@ -247,6 +261,7 @@ module.exports = () => {
                 // CSS loading 
                 {
                     test: /\.(sc|c)ss$/i,
+                    exclude: CMS_FULL_PATH,
                     use: [
                         MiniCssExtractPlugin.loader, // extract css to subfolder 
                         'css-loader',
@@ -259,12 +274,14 @@ module.exports = () => {
                 // Images asset loading
                 {
                     test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                    exclude: CMS_FULL_PATH,
                     type: 'asset/resource',
                 },
 
                 // Fonts asset loading
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                    exclude: CMS_FULL_PATH,
                     type: 'asset/resource',
                 },
 
