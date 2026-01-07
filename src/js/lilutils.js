@@ -132,20 +132,21 @@ export function GetPreserveAspectRatio(preserveAspectRatio) {
 
 /**
  * Removes {@link StringNumericOnly non-numeric} chars from a string and returns the resulting number. 
- * Returns `NaN` if no number is found. 
+ * Returns {@linkcode returnOnInvalid} (default `NaN`) if no number is found, or if parsing fails. 
  * @param {string|number} str Input string to convert. If given a number, simply returns it.
  * @param {boolean} [parseToInt = false] If true, returns `int`. If false, returns `Number`. Default `false`. 
+ * @param {number} [returnOnInvalid=NaN] Returns this value if no number is found, or if parsing fails. Default `NaN`
  * @returns {number|NaN} The parsed number, or `NaN` if no digits are found.
  * @see {@linkcode EnsureToNumber} if you need to parse a non-string, non-numeric value
  */
-export function StringToNumber(str, parseToInt = false) {
+export function StringToNumber(str, parseToInt = false, returnOnInvalid = NaN) {
     if (typeof str === 'number') { return str; }
-    if (!isStringNotBlank(str)) { return NaN; }
+    if (!isStringNotBlank(str)) { return returnOnInvalid; }
     let strLow = str.toLowerCase().trim();
     if (strLow == 'infinity') { return Infinity; }
     else if (strLow == '-infinity') { return -Infinity; }
     else if (strLow == 'nan') { return NaN; }
-    if (!StringContainsNumeric(str)) { return NaN; }
+    if (!StringContainsNumeric(str)) { return returnOnInvalid; }
     str = StringNumericOnly(str);// strip away all non-numeric chars 
     return parseToInt ? parseInt(str) : Number(str);
 }
@@ -550,8 +551,6 @@ export function ColorToRGBA(color, alpha = RGBAlpha.Include) {
  * @returns {[number, number, number, number?]|null}
  */
 export function ColorToArray(color, alpha = RGBAlpha.Include) {
-    // DPJS_TO_DO: finish ColorToArray and ColorToHex utils
-    // Issue URL: https://github.com/nickyonge/evto-web/issues/77
     throw new Error(`Not Yet Implemented, ColorToArray, can't convert str: ${color}`);
     color = EnsureColorValid(color);
     if (color == null) { return null; }
@@ -590,37 +589,48 @@ export function ColorToHex(color, alpha = RGBAlpha.Ignore, prefixHash = '#') {
 
 /**
  * Takes a value, and ensures that it's a number. If `value` isn't a number
- * and can't be parsed, returns `NaN` and optionally outputs an error.
+ * and can't be parsed, returns {@linkcode returnOnInvalid} (default `NaN`) 
+ * and optionally outputs an error.
  * @param {number|any} value Input value to convert to a Number 
  * @param {boolean} [errorOnFailure=true] output an error upon parsing failure? Default `true`
+ * @param {number} [returnOnInvalid=NaN] Value to return on parsing error. Default `NaN`
+ * @param {boolean} [ensureFinite=true] Ensure non-infinite + non-NaN return value? Default `true`
+ * - **Note:** Even if `ensureFinite` is `true`, an invalid operation will still return
+ * {@linkcode returnOnInvalid}, even if it's `NaN`. If it's mandatory to ensure a given
+ * fallback number, set {@linkcode returnOnInvalid} to `0` or the desired default value.
  * @returns {number}
  */
-export function EnsureToNumber(value, errorOnFailure = true) {
+export function EnsureToNumber(value, errorOnFailure = true, returnOnInvalid = NaN, ensureFinite = true) {
     function failure(/** @type {string} */ reason) {
         if (errorOnFailure) {
             console.error(`ERROR: failed to parse value: ${value} (type: ${typeof value}) to Number, ${reason}`, value);
         }
-        return NaN;
+        return returnOnInvalid;
+    }
+    function checkReturnFinite(value, ensureFinite) {
+        if (!ensureFinite) { return value; }
+        if (IsNumberFinite(value)) { return value; }
+        return failure('value returned is NaN or infinite');
     }
     if (value == null) { return failure('value is null or undefined'); }
     switch (typeof value) {
-        case 'number': return value;
-        case 'string': return StringToNumber(value);
-        case 'boolean': return value ? 1 : 0;
-        case 'bigint': return Number(value);
+        case 'number': return checkReturnFinite(value, ensureFinite);
+        case 'string': return checkReturnFinite(StringToNumber(value, false, returnOnInvalid), ensureFinite);
+        case 'boolean': return checkReturnFinite(value ? 1 : 0, ensureFinite);
+        case 'bigint': return checkReturnFinite(Number(value), ensureFinite);
         default:
             // other type - attempt to coerce to number
             const n = Number(value);
-            if (Number.isFinite(n)) { return n; }
+            if (Number.isFinite(n)) { return checkReturnFinite(n, ensureFinite); }
             // failed, before checking if n is Infinity, -Infinity, or NaN, try toString
             const s = value.toString();
             if (isStringNotBlank(s)) {
-                const sn = StringToNumber(s);
-                if (Number.isFinite(sn)) { return sn; }
-                if (IsNumberInfiniteOrNaN(sn)) { return sn; }
+                const sn = StringToNumber(s, false, returnOnInvalid);
+                if (Number.isFinite(sn)) { return checkReturnFinite(sn, ensureFinite); }
+                if (IsNumberInfiniteOrNaN(sn)) { return checkReturnFinite(sn, ensureFinite); }
             }
             // infinity/NaN n check
-            if (IsNumberInfiniteOrNaN(n)) { return n; }
+            if (IsNumberInfiniteOrNaN(n)) { return checkReturnFinite(n, ensureFinite); }
             if (n == null || typeof n != 'number') {
                 // conversion fully failed
                 return failure('failed to convert value, likely too complex for conversion');
@@ -631,14 +641,26 @@ export function EnsureToNumber(value, errorOnFailure = true) {
 }
 
 /**
- * Checks if the given number is explicitly
+ * Checks if the given number is explicitly 
  * `Infinity`, `-Infinity`, or `NaN`
- * @param {number} num Number to check
+ * @param {number} num Number to check  
  * @returns {boolean} */
 export function IsNumberInfiniteOrNaN(num) {
     if (num == null || typeof num != 'number') { return false; }
     if (Number.isFinite(num)) { return false; }
     return num === Infinity || num === -Infinity || Number.isNaN(num);
+}
+/** 
+ * Checks if the given number is a valid number
+ * that is not `Infinity`, `-Infinity`, or `NaN`.
+ * 
+ * Convenience to match {@linkcode IsNumberInfiniteOrNaN}
+ * styling; simply calls `Number.isFinite`.
+ * @param {number} num Number to check
+ * @returns {boolean} 
+ * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite Number.isFinite()} on MDN */
+export function IsNumberFinite(num) {
+    return Number.isFinite(num);
 }
 
 /**
@@ -775,6 +797,130 @@ export function ToPercentage(number, multiplyBy100 = true, minValue = null, maxV
     }
     // check rounding 
     number = RoundWith(number, roundingOperation);
+}
+
+/** 
+ * Security mode to use when generating a random number. 
+ * - {@linkcode RandomSecureMode.Fast Fast}: Uses `Math.random`. 
+ * Quickest pseudorandom generation, but non-cryptographically secure. 
+ * - {@linkcode RandomSecureMode.TrySecure TrySecure}: Attempts cryptographically 
+ * secure pseudorandom number generation (CSPRNG) via the WebCrypto API. 
+ * If the API is unavailable, reverts to {@linkcode RandomSecureMode.Fast Fast}. 
+ * - {@linkcode RandomSecureMode.ForceSecure ForceSecure}: Attempts cryptographically 
+ * secure pseudorandom number generation (CSPRNG) via the WebCrypto API. 
+ * If the API is unavailable, throws an error.
+ *     - **Note:** While this is cryptographically secure, it's still being run on the user's 
+ *     local environment. Any client-side code execution is fundamentally unsafe. 
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API WebCrypto API} MDN documentation
+ * @typedef {'Fast'|'TrySecure'|'ForceSecure'} RandomSecureMode
+ */
+export const RandomSecureMode = Object.freeze({
+    /** 
+     * Uses `Math.random()` to get a random value from the array. 
+     * This is preferred for most user-facing situations, such as 
+     * random colour variation or single-player gameplay situations. 
+     * 
+     * "Would it be fundamentally okay if the user could predict the result?" */
+    Fast: 'Fast',
+    /** 
+     * Safer, more expensive. Tries to use cryptographically-secure random number generation via the 
+     * {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API WebCrypto API}.
+     * If that API is unavailable, defaults to using {@linkcode RandomSecureMode.Fast Fast}. 
+     * Useful when security is important yet non-critical, and functionality is MORE important. */
+    TrySecure: 'TrySecure',
+    /** 
+     * Safer, more expensive. Tries to use cryptographically-secure random number generation via the 
+     * {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API WebCrypto API}.
+     * Throws an error if the API is unavailable. 
+     * 
+     * - **Note:** While this is cryptographically secure, it's still being run on the user's 
+     * local environment. Any client-side code execution is fundamentally unsafe. */
+    ForceSecure: 'ForceSecure'
+});
+
+/**
+ * Generates and returns a random number between `min` (inclusive) and `max` (exclusive). 
+ * 
+ * Optionally uses the WebCrypto API for cryptographically secure pseudorandom number generation (CSPRNG). 
+ * 
+ * To get an integer-rounded random value, see {@linkcode RandomInt}. In the case of arrays, 
+ * remember to account for rounding being `max` inclusive by default. 
+ * 
+ * ---
+ * @param {number} [min=0] Minimum possible random value. Must be finite. Default `0`
+ * @param {number} [max=1] Minimum possible random value. Must be finite. Default `0`
+ * @param {RandomSecureMode} secureMode Security mode to use during generation. Default {@linkcode RandomSecureMode.Fast Fast}
+ * @returns {number}
+ */
+export function RandomValue(min = 0, max = 1, secureMode = RandomSecureMode.Fast) {
+    // ensure valid input values 
+    if (!IsNumberFinite(min) || !IsNumberFinite(max)) {
+        throw new Error(`Cannot generate random number with non-finite values, min: ${min}, max: ${max}, secureMode: ${secureMode}, returning NaN`, this);
+    }
+    if (min === max) { return min; }
+    else if (max < min) [min, max] = [max, min];
+    // check security mode 
+    if (secureMode != 'Fast') {
+        // local ref to webcrypto api 
+        const webCryptoAPI = globalThis.crypto;
+        if (webCryptoAPI != null && typeof webCryptoAPI?.getRandomValues === "function") {
+            // WebCrypto API is available 
+            const uInt32array = new Uint32Array(1);
+            webCryptoAPI.getRandomValues(uInt32array);
+            const unitInterval = uInt32array[0] / 0x100000000; // smallest fractional unit (1/2^32), 0 inclusive, 1 exclusive 
+            return (unitInterval * (max - min)) + min; // map unit to min/max range, min inclusive, max exclusive
+        } else if (secureMode == 'ForceSecure') {
+            // api is unavailable but required, error out 
+            throw new Error('This environment does not support web cryptography. Cannot generate secure random number.');
+        }
+    }
+    // fast, simple execution 
+    return min + Math.random() * (max - min);
+}
+/**
+ * Generates and returns a random integer between `min` (inclusive) and `max` (inclusive), 
+ * using the given {@linkcode RoundOps rounding operation}. 
+ * 
+ * Optionally uses the WebCrypto API for cryptographically secure pseudorandom number generation (CSPRNG). 
+ * 
+ * - **NOTE:** If {@linkcode roundingOperation} is {@linkcode RoundOps.None}, simply returns 
+ * {@linkcode RandomValue} with the given parameters. In this case, {@linkcode max} is *exclusive*, not *inclusive*.
+ * - **NOTE:** If getting a random array index (or other `max` exclusive operation), remember to use 
+ * {@linkcode RoundOps.Floor} for your {@linkcode roundingOperation}, or simply use {@linkcode RandomArrayIndex}.
+ * 
+ * ---
+ * @param {number} [min=0] Minimum possible random value. Must be finite. Default `0`
+ * @param {number} [max=1] Minimum possible random value. Must be finite. Default `0`
+ * @param {RoundOps} [roundingOperation=RoundOps.Round] Rounding operation to use. Default {@linkcode RoundOps.Round Round}.
+ * @param {RandomSecureMode} secureMode Security mode to use during generation. Default {@linkcode RandomSecureMode.Fast Fast}
+ * @returns {number}
+ */
+export function RandomInt(min = 0, max = 100, roundingOperation = RoundOps.Round, secureMode = RandomSecureMode.Fast) {
+    let randomValue = RandomValue(min, max, secureMode);
+    return RoundWith(randomValue, roundingOperation);
+}
+
+/**
+ * Gets a random index value from the given array.
+ * @param {any[]} array Array to get a random index of. Must be non-null, and have a `length` greater than 0.
+ * @param {RandomSecureMode} [secureMode=RandomSecureMode.Fast] Security mode to use during generation. Default {@linkcode RandomSecureMode.Fast Fast}
+ * @returns {number}
+ */
+export function RandomArrayIndex(array, secureMode = RandomSecureMode.Fast) {
+    if (array == null || array.length === 0) {
+        console.warn(`Can't get random index from a null/empty array, array: ${array}, secureMode: ${secureMode}, returning NaN`, this);
+        return NaN;
+    }
+    let index = RandomInt(0, array.length, RoundOps.Floor);
+    let failsafe = Math.max(10, array.length + 1);
+    while (index >= array.length && failsafe > 0) {
+        index = RandomInt(0, array.length, RoundOps.Floor);
+        failsafe--;
+        if (failsafe == 0) {
+            console.warn("WARNING: hit the RandomInt failsafe getting random index, investigate", this);
+        }
+    }
+    return index;
 }
 
 // #endregion Numbers
@@ -1539,19 +1685,19 @@ export function IsActiveElement(element) {
 export function SetElementEnabled(element, set = true, updateStoredValues = false) {
     // preserve values on first call 
     if (element._priorDraggable == null) {
-        element._priorDraggable = [element.draggable];
+        element._priorDraggable = element.draggable;
     }
     if (element._priorPointerEvents == null) {
-        element._priorPointerEvents = [element.style.pointerEvents];
+        element._priorPointerEvents = element.style.pointerEvents;
     }
     if (!set) {
         DeselectElement(element, true);
         if (updateStoredValues) {
-            element.draggable = set ? element._priorDraggable[0] : 'false';
+            element.draggable = set ? element._priorDraggable : 'false';
         }
     }
     if (updateStoredValues) {
-        element.style.pointerEvents = set ? element._priorPointerEvents[0] : 'none';
+        element.style.pointerEvents = set ? element._priorPointerEvents : 'none';
     }
     if (set) {
         // enable 
@@ -1596,6 +1742,21 @@ export function SetElementEnabled(element, set = true, updateStoredValues = fals
  */
 export function SetElementDisabled(element) {
     SetElementEnabled(element, false);
+}
+
+/**
+ * Is the given element connected to the document, and (optionally) is its 
+ * `getClientRects()` count greater than zero (eg, is it rendered in the layout)?
+ * @param {Element} element Element to check 
+ * @param {boolean} [alsoCheckLayoutBox=true] If connected, also check `getClientRects` count? Default `true` 
+ * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected Node.isConnected} docs 
+ * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Element/getClientRects Element.getClientRects} docs 
+ * @returns {boolean}
+ */
+export function IsElementConnected(element, alsoCheckLayoutBox = true) {
+    if (!element.isConnected) { return false; }
+    if (alsoCheckLayoutBox && element.getClientRects().length === 0) { return false; }
+    return true;
 }
 
 // #endregion Element Selection
@@ -1690,8 +1851,6 @@ export function LapCheckInterval(label, lapTime, returnOnNew = true) {
         return returnOnNew;
     }
     if (HasIntervalLapped(label, lapTime)) {
-        // DPJS_TO_DO: account for time difference between lapTime and now
-        // Issue URL: https://github.com/nickyonge/evto-web/issues/11
         SetInterval(label);
         return true;
     }

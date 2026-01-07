@@ -548,8 +548,8 @@ declare global {
         style?: CSSStyleDeclaration;
         disabled?: boolean;
 
-        _priorDraggable?: [any];
-        _priorPointerEvents?: [any];
+        _priorDraggable?: 'true' | 'false' | 'auto' | boolean;
+        _priorPointerEvents?: string;
 
         /** Removes keyboard focus from this element. @returns {void} */
         blur(): void;
