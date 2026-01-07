@@ -2,35 +2,38 @@
 
 html *,
 body *,
-#container * {
+main * {
     /* disable all input/selection by default */
     pointer-events: none;
     user-select: none;
     touch-action: none;
 }
 
-#container .selectable,
-#container .uiComponent input {
+body .selectable,
+body .uiComponent input,
+body .uiComponent button {
     /* selectable element */
     user-select: text;
     pointer-events: all;
 }
 
-#container .selectable.noText,
-#container .uiComponent input.noText,
-#container .uiComponent input .noText {
+body .selectable.noText,
+body .uiComponent input.noText,
+body .uiComponent input .noText,
+body .uiComponent button.noText,
+body .uiComponent button .noText {
     /* pointer events valid, no text selection */
     /* useful for things like buttons with text on em */
     user-select: none;
 }
 
-#container .scrollable {
+body .scrollable {
     scrollbar-width: thin;
     overscroll-behavior-y: none;
     overflow-y: auto;
     touch-action: pan-y;
 }
-#container .scrollable * {
+body .scrollable * {
     touch-action: pan-y;
 }
 
