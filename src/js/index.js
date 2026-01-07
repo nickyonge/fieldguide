@@ -1,6 +1,6 @@
 /** Project Begins Here */
 
-import './css';
+import './../css/index.css';
 import { InitializeLayout } from './layout';
 import { GenerateCSS } from './components';
 
