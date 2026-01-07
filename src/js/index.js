@@ -3,6 +3,8 @@
 import './../css/index.css';
 import { InitializeLayout } from './layout';
 import { GenerateCSS } from './components';
+import './global';
+import './sys';
 
 // initial window load callback 
 window.addEventListener('load', function () {
