@@ -16,6 +16,7 @@ export function InitializeLayout() {
     document.body.appendChild(footer);
 
 
-    let btn = cmp
+    let btn = new cmp.Button('hi!');
+    header.appendChild(btn);
 
 }
