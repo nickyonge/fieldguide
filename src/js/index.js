@@ -1,6 +1,7 @@
 /** Project Begins Here */
 
 import './css';
+import { InitializeLayout } from './layout';
 
 // initial window load callback 
 window.addEventListener('load', function () {
@@ -8,7 +9,9 @@ window.addEventListener('load', function () {
 
     /** --- Initialization code goes here --- */
 
-    DemoDiv();
+    InitializeLayout();
+
+    // DemoDiv();
 
     // post-load timeout 
     this.setTimeout(() => {

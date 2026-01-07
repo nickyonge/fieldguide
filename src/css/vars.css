@@ -1,5 +1,14 @@
 :root {
 
+    /* #region UI */
+
+    --ui-header-height: 42px;
+    --ui-footer-height: 36px;
+
+    /* #endregion UI */
+
+    /* #region Color */
+
     --color-text-body: #171d25;
     --color-text-body-light: #a4c4ef;
     --color-bg-solid: #4680db;
@@ -7,13 +16,18 @@
     --color-bg-gradient-1: #4e89db;
     --color-bg-gradient-2: #4680db;
     --color-bg-gradient-3: #225bc8;
-    
+
     --color-simpleContainer-innerDiv: #beeeef;
+
+    /* #endregion Color */
+
+    /* #region SimpleContainer */
 
     --simpleContainer-innerDiv-width: 213px;
     --simpleContainer-innerDiv-height: 69px;
     --simpleContainer-innerDiv-radius: 27px;
 
+    /* #endregion SimpleContainer */
 
     /* below is imported from evto-web */
 
@@ -137,8 +151,6 @@
     --ui-art-info-landscape-height-offset: 16.9px;
     --ui-art-info-landscape-dataOnTop-margin-offset: 16.9px;
 
-    --ui-header-height: 56px;
-    --ui-footer-height: 40px;
     --ui-art-window-ratio: 0.8fr;
 
     --ui-footer-email-bar-width: 250px;
