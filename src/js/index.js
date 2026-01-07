@@ -2,6 +2,7 @@
 
 import './css';
 import { InitializeLayout } from './layout';
+import { GenerateCSS } from './components';
 
 // initial window load callback 
 window.addEventListener('load', function () {
@@ -10,6 +11,7 @@ window.addEventListener('load', function () {
     /** --- Initialization code goes here --- */
 
     InitializeLayout();
+    GenerateCSS();
 
     // DemoDiv();
 

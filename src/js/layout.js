@@ -1,4 +1,5 @@
 import { CreateElement } from "./ui";
+import * as cmp from './components';
 
 let header;
 let main;
@@ -13,5 +14,8 @@ export function InitializeLayout() {
     document.body.appendChild(header);
     document.body.appendChild(main);
     document.body.appendChild(footer);
+
+
+    let btn = cmp
 
 }

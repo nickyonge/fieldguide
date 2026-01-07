@@ -2,7 +2,7 @@ import { BasicGradientRect } from "../svg/svgGenerator";
 import * as ui from "../ui";
 import { BasicComponent, TitledComponent } from "./base";
 
-import demoImageSrc from '../../assets/png/demo-paintings/demopainting1.png';
+// import demoImageSrc from '../../assets/png/demo-paintings/demopainting1.png';
 import { svgHTMLAsset, svgShape, svgGradient, svgRect, svgDefinition, svgViewBox, svgMaskDefinition, svgImageDefinition, svgElement } from "../svg/index";
 import * as svg from '../svg/index';
 import { EnsureToNumber, isBlank, isStringAndBlank, isStringNotBlank } from "../lilutils";
@@ -384,7 +384,8 @@ export class ImageField extends TitledComponent {
 
     CreateDemoImage() {
         if (this.#_demoImage == null) {
-            this.#_demoImage = this.addImage(demoImageSrc, 'Demo Image');
+            throw new Error("Can't create demo image, DemoImageSrc not defined");
+            // this.#_demoImage = this.addImage(demoImageSrc, 'Demo Image');
         }
         return this.#_demoImage;
     }
