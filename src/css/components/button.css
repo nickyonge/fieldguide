@@ -2,17 +2,17 @@
 https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 
 .uiComponent .pushable {
-  position: relative;
-  background: transparent;
-  margin: 6px 10px 4px;
-  padding: 0px;
-  border: none;
-  cursor: pointer;
-  outline-offset: 4px;
-  outline-width: 2px;
-  border-radius: 8px;
-  transition: filter var(--ui-component-button-anim-time-med);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: relative;
+    background: transparent;
+    margin: 6px 10px 4px;
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    outline-offset: 4px;
+    outline-width: 2px;
+    border-radius: 8px;
+    transition: filter var(--ui-component-button-anim-time-med);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .uiComponent .pushable .hoverArea {
@@ -24,76 +24,74 @@ https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 }
 
 .uiComponent .pushable .shadow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: hsl(226, 25%, 69%);
-  border-radius: 8px;
-  filter: blur(2px);
-  will-change: transform;
-  transform: translateY(2px);
-  transition: transform var(--ui-component-button-anim-time-slow) cubic-bezier(0.3, 0.7, 0.4, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: hsl(226, 25%, 69%);
+    border-radius: 8px;
+    filter: blur(2px);
+    will-change: transform;
+    transform: translateY(2px);
+    transition: transform var(--ui-component-button-anim-time-slow) cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 
 .uiComponent .pushable .edge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 8px;
-  background: linear-gradient(
-    to right,
-    hsl(248, 39%, 39%) 0%,
-    hsl(248, 39%, 49%) 8%,
-    hsl(248, 39%, 39%) 92%,
-    hsl(248, 39%, 29%) 100%
-  );
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    background: linear-gradient(to right,
+            hsl(248, 39%, 39%) 0%,
+            hsl(248, 39%, 49%) 8%,
+            hsl(248, 39%, 39%) 92%,
+            hsl(248, 39%, 29%) 100%);
 }
 
 .uiComponent .pushable .front {
-  display: block;
-  position: relative;
-  border-radius: 8px;
-  background: hsl(248, 53%, 58%);
-  padding: 8px 12px 6px;
-  color: white;
-  /* font-weight: 600; */
-  /* text-transform: uppercase; */
-  letter-spacing: 1.5px;
-  /* font-size: 1rem; */
-  transform: translateY(-4px);
-  transition: transform var(--ui-component-button-anim-time-slow) cubic-bezier(0.3, 0.7, 0.4, 1);
+    display: block;
+    position: relative;
+    border-radius: 8px;
+    background: hsl(248, 53%, 58%);
+    padding: 8px 12px 6px;
+    color: white;
+    /* font-weight: 600; */
+    /* text-transform: uppercase; */
+    letter-spacing: 1.5px;
+    /* font-size: 1rem; */
+    transform: translateY(-4px);
+    transition: transform var(--ui-component-button-anim-time-slow) cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 
 .uiComponent .pushable:hover {
-  filter: brightness(110%);
+    filter: brightness(110%);
 }
 
 .uiComponent .pushable:hover .front {
-  transform: translateY(-6px);
-  transition: transform var(--ui-component-button-anim-time-med) cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    transform: translateY(-6px);
+    transition: transform var(--ui-component-button-anim-time-med) cubic-bezier(0.3, 0.7, 0.4, 1.5);
 }
 
 .uiComponent .pushable:active .front {
-  transform: translateY(-2px);
-  transition: transform var(--ui-component-button-anim-time-fast);
+    transform: translateY(-2px);
+    transition: transform var(--ui-component-button-anim-time-fast);
 }
 
 .uiComponent .pushable:hover .shadow {
-  transform: translateY(4px);
-  transition: transform var(--ui-component-button-anim-time-med) cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    transform: translateY(4px);
+    transition: transform var(--ui-component-button-anim-time-med) cubic-bezier(0.3, 0.7, 0.4, 1.5);
 }
 
 .uiComponent .pushable:active .shadow {
-  transform: translateY(1px);
-  transition: transform var(--ui-component-button-anim-time-fast);
+    transform: translateY(1px);
+    transition: transform var(--ui-component-button-anim-time-fast);
 }
 
 .uiComponent .pushable:focus:not(:focus-visible) {
-  outline: none;
+    outline: none;
 }
 
 /*
