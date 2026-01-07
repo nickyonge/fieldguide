@@ -1,0 +1,45 @@
+# initial test config
+
+local_backend: true
+
+# LOCAL BACKEND 
+display_url: "../" # up-one-layer display URL 
+backend:
+  name: git-gateway #see https://decapcms.org/docs/git-gateway-backend/
+
+# PRODUCTION BACKEND (GITHUB) 
+# display_url: "https://github.com/nickyonge/fieldguide"
+# backend:
+#   name: github
+#   repo: nickyonge/fieldguide
+#   branch: main
+#Note: github requires an auth server, such as: 
+#   base_url: https://your-oauth-proxy.example.com
+#   auth_endpoint: auth
+#see: https://decapcms.org/docs/external-oauth-clients/
+#also look into codeberg backend 
+
+site_url: "https://github.com/nickyonge/fieldguide"
+
+
+#TODO: Decap config Slug Type, https://decapcms.org/docs/configuration-options/#configuration-file
+
+logo:
+  src: duck.png
+  show_in_header: true
+
+media_folder: "content/media"
+public_folder: "/content/media"
+
+# https://decapcms.org/docs/configuration-options/#collections
+collections:
+  - name: "elements"
+    label: "Elements"
+    folder: "content/elements"
+    create: true
+    format: "yml"
+    extension: "yml"
+    fields:
+      - { label: "ID", name: "id", widget: "string" }
+      - { label: "Label", name: "label", widget: "string" }
+      - { label: "Asset", name: "asset", widget: "string" }
