@@ -3,6 +3,8 @@ footer {
     position: absolute;
     z-index: 99;
     width: 100vw;
+    display: flex;
+    align-items: center;
 }
 
 header {

@@ -2,16 +2,16 @@
 https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 
 .uiComponent .pushable {
-    
+
     --ui-component-button-color: rgb(178, 214, 243);
     --ui-component-font-color: #24184b;
-    
+
     --ui-component-button-color-dark: lch(from var(--ui-component-button-color) calc(l - 15) c h);
 
     display: flex;
     position: relative;
     background: transparent;
-    margin: 4px 4px 2px;
+    margin: 6px 4px 2px;
     padding: 0px;
     border: none;
     cursor: pointer;

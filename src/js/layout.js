@@ -7,20 +7,28 @@ let footer;
 
 export function InitializeLayout() {
 
+    CreateHeader();
+    CreateMain();
+    CreateFooter();
+}
+
+function CreateHeader() {
     header = CreateElement('header');
-    main = CreateElement('main');
-    footer = CreateElement('footer');
-
-    document.body.appendChild(header);
-    document.body.appendChild(main);
-    document.body.appendChild(footer);
-
 
     let btn = new cmp.Button('hi!');
     header.appendChild(btn);
     header.appendChild(new cmp.Button('hi2!'));
     header.appendChild(new cmp.Button('hi3!'));
     header.appendChild(new cmp.Button('hi4!'));
-    header.appendChild(new cmp.Button('hi5!'));
+    header.appendChild(new cmp.Button('CMS'));
 
+    document.body.appendChild(header);
+}
+function CreateMain() {
+    main = CreateElement('main');
+    document.body.appendChild(main);
+}
+function CreateFooter() {
+    footer = CreateElement('footer');
+    document.body.appendChild(footer);
 }
