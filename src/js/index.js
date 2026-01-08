@@ -15,7 +15,7 @@ window.addEventListener('load', function () {
     InitializeLayout();
     GenerateCSS();
 
-    // DemoDiv();
+    DemoDiv();
 
     // post-load timeout 
     this.setTimeout(() => {

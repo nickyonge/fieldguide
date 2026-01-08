@@ -9,11 +9,11 @@ footer {
 
 header {
     height: var(--ui-header-height);
-    background-color: red;
+    /* background-color: red; */
 }
 
 footer {
     height: var(--ui-footer-height);
-    background-color: purple;
+    /* background-color: purple; */
     top: calc(100vh - var(--ui-footer-height));
 }
