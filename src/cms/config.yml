@@ -3,12 +3,14 @@
 local_backend: true
 
 # LOCAL BACKEND 
-display_url: "../" # up-one-layer display URL 
+display_url: "../" # up-one-layer URLs 
+site_url: "../" 
 backend:
   name: git-gateway #see https://decapcms.org/docs/git-gateway-backend/
 
 # PRODUCTION BACKEND (GITHUB) 
 # display_url: "https://github.com/nickyonge/fieldguide"
+# site_url: "https://github.com/nickyonge/fieldguide"
 # backend:
 #   name: github
 #   repo: nickyonge/fieldguide
@@ -19,7 +21,6 @@ backend:
 #see: https://decapcms.org/docs/external-oauth-clients/
 #also look into codeberg backend 
 
-site_url: "https://github.com/nickyonge/fieldguide"
 
 
 #TODO: Decap config Slug Type, https://decapcms.org/docs/configuration-options/#configuration-file
