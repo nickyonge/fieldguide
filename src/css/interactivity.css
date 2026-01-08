@@ -11,6 +11,7 @@ main * {
 
 body .selectable,
 body .uiComponent input,
+body .uiComponent .hoverArea,
 body .uiComponent button {
     /* selectable element */
     user-select: text;

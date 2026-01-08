@@ -18,5 +18,9 @@ export function InitializeLayout() {
 
     let btn = new cmp.Button('hi!');
     header.appendChild(btn);
+    header.appendChild(new cmp.Button('hi2!'));
+    header.appendChild(new cmp.Button('hi3!'));
+    header.appendChild(new cmp.Button('hi4!'));
+    header.appendChild(new cmp.Button('hi5!'));
 
 }

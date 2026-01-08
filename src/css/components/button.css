@@ -2,13 +2,14 @@
 https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 
 .uiComponent .pushable {
+    display: flex;
     position: relative;
     background: transparent;
     margin: 6px 10px 4px;
     padding: 0px;
     border: none;
     cursor: pointer;
-    outline-offset: 4px;
+    outline-offset: 0px;
     outline-width: 2px;
     border-radius: 8px;
     transition: filter var(--ui-component-button-anim-time-med);
@@ -16,11 +17,12 @@ https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 }
 
 .uiComponent .pushable .hoverArea {
-    width: 100%;
-    height: 100%;
-    background-color: orange;
-    position: relative;
-    display: inline-block;
+    inset: -6.9px -3px -4px;
+    border-radius: 8px;
+    /* background: magenta; */
+    background: none;
+    position: absolute;
+    z-index: -1;
 }
 
 .uiComponent .pushable .shadow {

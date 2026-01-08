@@ -30,6 +30,7 @@ export class Button extends TitledComponent {
     #shadow;
     #edge;
     #front;
+    #hoverArea;
 
     constructor(text, title) {
 
@@ -39,7 +40,9 @@ export class Button extends TitledComponent {
         this.#shadow = ui.CreateElementWithClass('span', 'shadow');
         this.#edge = ui.CreateElementWithClass('span', 'edge');
         this.#front = ui.CreateElementWithClass('span', 'front');
+        this.#hoverArea = ui.CreateElementWithClass('span', 'hoverArea');
 
+        this.#button.appendChild(this.#hoverArea);
         this.#button.appendChild(this.#shadow);
         this.#button.appendChild(this.#edge);
         this.#button.appendChild(this.#front);
