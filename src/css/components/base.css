@@ -3,6 +3,13 @@
     padding: 2px;
 }
 
+.uiComponent.marginLeftAuto {
+    margin-left: auto;
+}
+.uiComponent.marginRightAuto {
+    margin-right: auto;
+}
+
 .uiComponent .componentTitle {
     color: var(--ui-component-color-text);
     margin: 0px 5px 0px 5px;

@@ -1,4 +1,4 @@
-import { CreateElement } from "./ui";
+import { AddClassToDOMs, CreateElement } from "./ui";
 import * as cmp from './components';
 
 let header;
@@ -15,12 +15,9 @@ export function InitializeLayout() {
 function CreateHeader() {
     header = CreateElement('header');
 
-    let btn = new cmp.Button('hi!');
+    let btn = new cmp.Button('CMS');
+    AddClassToDOMs('marginLeftAuto', btn.div);
     header.appendChild(btn);
-    header.appendChild(new cmp.Button('hi2!'));
-    header.appendChild(new cmp.Button('hi3!'));
-    header.appendChild(new cmp.Button('hi4!'));
-    header.appendChild(new cmp.Button('CMS'));
 
     document.body.appendChild(header);
 }
