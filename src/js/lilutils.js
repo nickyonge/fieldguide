@@ -1880,6 +1880,100 @@ export function TimeBetweenTwoTimestamps(timestampA, timestampB) {
 
 // #endregion Timing
 
+// #region Browser
+
+/** 
+ * @typedef {'Normal'|'NoHistory'|'NewTab'|'Popup'} URLMode 
+ * Method to use when opening a new URL via {@linkcode OpenURL}.
+ * - {@linkcode URLMode.Normal Normal}: 
+ *     Opens the given URL in the current browser tab.
+ * - {@linkcode URLMode.NoHistory NoHistory}: 
+ *     Opens in the same tab, but *does not* update the browser history,
+ *     and no states are added to the Back/Forward navigation buttons. 
+ *     Useful for situations like a post-login redirect. 
+ *     
+ *     Uses `window.location.replace(url)`
+ *     {@link https://developer.mozilla.org/en-US/docs/Web/API/Location/replace (MDN docs)}
+ *     instead of `Window.open()`. 
+ * - {@linkcode URLMode.NewTab NewTab}: 
+ *     Opens the given URL in a new browser tab 
+ *     (or window, if the user's browser is configured to do so).
+ * - {@linkcode URLMode.Popup Popup}: 
+ *     Opens the given URL in a popup tab. If you want to customize the
+ *     popup at all, it's recommended to call `Window.open` directly, to 
+ *     access the `windowfeatures` parameter. 
+ *     
+ *     Will use the fixed name `"popup"`, meaning that by default, 
+ *     a new window will be opened once and all future popups will use 
+ *     that window until it's closed. 
+ *     
+ *     **Note:** Can be blocked by browsers, especially if opening multiple. 
+ *     Avoid if possible. 
+*/
+export const URLMode = Object.freeze({
+    /** Opens the given URL in the current browser tab. */
+    Normal: 'Normal',
+    /** 
+     * Opens in the same tab, but *does not* update the browser history,
+     * and no states are added to the Back/Forward navigation buttons. 
+     * Useful for situations like a post-login redirect. 
+     * 
+     * Uses `window.location.replace(url)` instead of `Window.open()`.
+     * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Location/replace Location.replace()} MDN documentation
+     */
+    NoHistory: 'NoHistory',
+    /** 
+     * Opens the given URL in a new browser tab 
+     * (or window, if the user's browser is configured to do so).
+     */
+    NewTab: 'NewTab',
+    /** 
+     * Opens the given URL in a popup tab. If you want to customize the
+     * popup at all, it's recommended to call `Window.open` directly, to 
+     * access the `windowfeatures` parameter. 
+     * 
+     * Will use the fixed name `"popup"`, meaning that by default, 
+     * a new window will be opened once and all future popups will use 
+     * that window until it's closed. 
+     * 
+     * **Note:** Can be blocked by browsers, especially if opening multiple. 
+     * Avoid if possible. 
+     */
+    Popup: 'Popup'
+});
+
+/**
+ * Navigates to a new URL in the user's browser.
+ * @param {string} url The URL or path of the resource to load. 
+ * If blank or undefined, a blank page opens in the current browser context. 
+ * @param {URLMode} [urlMode=URLMode.Normal] Mode to use for opening the URL. 
+ * Simplified way of differentiating between opening in the same tab (`Normal`), 
+ * opening in a new tab or window (`NewTab`), etc.
+ * 
+ * Default {@linkcode URLMode.Normal Normal}: open in the same tab.
+ * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Window/open Window.open()} MDN documentation
+ */
+export function OpenURL(url, urlMode = URLMode.Normal) {
+    switch (urlMode) {
+        case URLMode.Normal:
+            window.open(url, '_self');
+            break;
+        case URLMode.NoHistory:
+            break;
+        case URLMode.NewTab:
+            window.open(url, '_blank');
+            break;
+        case URLMode.Popup:
+            window.open(url, 'popup', 'popup');
+            break;
+        default:
+            console.error(`Invalid URLMode: ${urlMode}, can't open URL: ${url}`, this);
+            break;
+    }
+}
+
+// #endregion Browser 
+
 // #region Environment
 
 /** If process.env.NODE_EVN is 'testing', should {@linkcode _env_isDevelopment} return `true`? */
