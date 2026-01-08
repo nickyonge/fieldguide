@@ -1,17 +1,26 @@
-// Decap Connection Warning Detector
+/**  DECAP SERVER CONNECTION WARNING DETECTOR
+ * 
+ * Autodetects when Decap CMS fails to connect, 
+ * and reminds you to run npx decap-server, 
+ * because we could all use a little reminder sometimes 
+ * 
+ *   INSTALLATION  
+ * Drop/load this script the directory with Decap's index.html, and add 
+<script src="decapServerWarning.js"></script>
+ * to index.html's body, and you're good to go! 
+ * This script auto-deletes upon successful connection.
+*/
 
-/** 
- * Installation 
- * Drop/load this into the same directory as your Decap index.html, and add 
-   <script src="decapServerWarning.js"></script>
-   to index.html's body.
- */
+/**  CONFIG  */
 
-// Config 
 /** Will the warning only trigger if the current browser URL includes `localhost`? */
 const ONLY_TRIGGER_ON_LOCALHOST = true;
 /** Text to display for the terminal output suggestion */
 const TERMINAL_INPUT = 'npx decap-server';
+/** Console message to listen for, signifying a *failed* connection :( */
+const FAILURE_MESSAGE = 'Decap CMS Proxy Server not detected';
+/** Console message to listen for, signifying a *successful* connection :) */
+const SUCCESS_MESSAGE = 'Detected Decap CMS Proxy Server';
 
 /** Listener for Decap server connection failure */
 function DecapWarning() {
@@ -35,7 +44,7 @@ function DecapWarning() {
             }
             if (logText && typeof logText === 'string') {
                 // found logged output 
-                if (logText.startsWith('Decap CMS Proxy Server not detected')) {
+                if (logText.startsWith(FAILURE_MESSAGE)) {
                     // connection error detected, trigger error 
                     console.error(`Decap Connection Error Detected! Did you forget to run ${TERMINAL_INPUT}?`);
                     // on-screen error message
@@ -63,8 +72,9 @@ function DecapWarning() {
                     warning.appendChild(msg);
                     warning.appendChild(code);
                     document.body.appendChild(warning);
+                    // disable, but don't destroy the warning 
                     disable(false);
-                } else if (logText.startsWith('Detected Decap CMS Proxy Server')) {
+                } else if (logText.startsWith(SUCCESS_MESSAGE)) {
                     // hooray! successful connection 
                     disable();
                 }
@@ -84,6 +94,7 @@ function DecapWarning() {
         if (remove) {
             if (style) {
                 style.remove();
+                style = null;
             }
             if (warning) {
                 warning.remove();
@@ -96,3 +107,35 @@ function DecapWarning() {
 if (!ONLY_TRIGGER_ON_LOCALHOST || (document.URL && document.URL.toLowerCase().includes('localhost'))) {
     DecapWarning();
 }
+
+/** 
+ * LICENSE INFO 
+ *
+ *   This script was written by Nick Yonge, 2026, and is released 
+ *   under the terms of The Unlicense:
+ * 
+ * This is free and unencumbered software released into the public domain.
+ * 
+ * Anyone is free to copy, modify, publish, use, compile, sell, or
+ * distribute this software, either in source code form or as a compiled
+ * binary, for any purpose, commercial or non-commercial, and by any
+ * means.
+ * 
+ * In jurisdictions that recognize copyright laws, the author or authors
+ * of this software dedicate any and all copyright interest in the
+ * software to the public domain. We make this dedication for the benefit
+ * of the public at large and to the detriment of our heirs and
+ * successors. We intend this dedication to be an overt act of
+ * relinquishment in perpetuity of all present and future rights to this
+ * software under copyright law.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * For more information, please refer to <https://unlicense.org/>
+ */
