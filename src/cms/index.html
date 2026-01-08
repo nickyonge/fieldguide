@@ -9,63 +9,7 @@
     <link rel="icon" type="image/png" href="duck.png">
     <title>DPFB CMS</title>
     <style>
-        :root {
-            --start-opacity: 0.1;
-        }
 
-        .devNote {
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 40vw;
-            min-width: 250px;
-            height: auto;
-            position: absolute;
-            top: 0;
-            left: 0;
-            user-select: none;
-            opacity: 0;
-            animation-name: show;
-            animation-duration: 1000ms;
-            animation-fill-mode: forwards;
-            animation-delay: 250ms;
-            animation-timing-function: ease-out;
-        }
-
-        @keyframes show {
-            from {
-                opacity: var(--start-opacity);
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .devNote.window {
-            margin: 5px;
-            padding: 6px 25px 10px 10px;
-            /* padding-bottom: 12px; */
-        }
-
-        .devNote .title {
-            color: rgb(242, 169, 169);
-            padding-bottom: 5px;
-        }
-
-        .devNote .message {
-            font-size: small;
-            color: rgb(169, 169, 169);
-        }
-
-        .devNote .code {
-            user-select: all;
-            /* font-size: small; */
-            font-family: monospace;
-            color: rgb(169, 213, 195);
-            background-color: rgba(0, 0, 0, 0.27);
-            width: fit-content;
-            padding: 4px 12px 6px 6px;
-            margin-top: 5px;
-        }
     </style>
 </head>
 
@@ -79,57 +23,7 @@
     <!--https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js-->
 
     <!-- <span class="devNote">test</span> -->
-    <script>
-        var original = window.console.log;
-        window.console.log = (...data) => {
-            // intercept log message
-            let d = data;
-            let _logged = false;
-            function log() {
-                // allows triggering log before or after custom code 
-                if (_logged) { return; }
-                original(...d);
-                _logged = true;
-            }
-            function disable() {
-                window.console.log = original;
-            }
-            if (data) {
-                let logText;
-                if (Array.isArray(data)) {
-                    logText = data[0];
-                } else if (typeof data == 'string') {
-                    logText = data;
-                }
-                if (typeof logText === 'string') {
-                    // found logged output 
-                    if (logText.includes('Decap CMS Proxy Server not detected')) {
-                        // connection error detected 
-                        log();
-                        console.error("Decap Connection Error Detected! Did you forget to run `npx decap-server`?");
-                        let note = document.createElement('div');
-                        note.classList.add('devNote', 'window');
-                        let title = document.createElement('div');
-                        title.classList.add('title');
-                        title.innerText = "Decap Proxy Server Connection Error";
-                        let msg = document.createElement('div');
-                        msg.classList.add('message');
-                        msg.innerText = 'If using a local dev environment, remember to start the Decap local server via terminal:';
-                        let code = document.createElement('div');
-                        code.classList.add('code');
-                        code.innerText = 'npx decap-server';
-                        note.appendChild(title);
-                        note.appendChild(msg);
-                        note.appendChild(code);
-                        document.body.appendChild(note);
-                    } else if (logText.includes('Detected Decap CMS Proxy Server')) {
-                        disable();
-                    }
-                }
-            }
-            log();
-        }
-    </script>
+    <script src="decapwarning.js"></script>
 
 </body>
 
