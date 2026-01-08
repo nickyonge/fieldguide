@@ -2,10 +2,16 @@
 https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 
 .uiComponent .pushable {
+    
+    --ui-component-button-color: rgb(178, 214, 243);
+    --ui-component-font-color: #24184b;
+    
+    --ui-component-button-color-dark: lch(from var(--ui-component-button-color) calc(l - 15) c h);
+
     display: flex;
     position: relative;
     background: transparent;
-    margin: 6px 10px 4px;
+    margin: 4px 4px 2px;
     padding: 0px;
     border: none;
     cursor: pointer;
@@ -17,7 +23,7 @@ https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 }
 
 .uiComponent .pushable .hoverArea {
-    inset: -6.9px -3px -4px;
+    inset: -6.9px -3px -2px;
     border-radius: 8px;
     /* background: magenta; */
     background: none;
@@ -27,13 +33,12 @@ https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
 
 .uiComponent .pushable .shadow {
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: hsl(226, 25%, 69%);
-    border-radius: 8px;
-    filter: blur(2px);
+    inset: 0px 2px;
+    top: 2px;
+    bottom: 1px;
+    background: rgba(15, 2, 32, 0.2);
+    border-radius: 6px;
+    filter: blur(3px);
     will-change: transform;
     transform: translateY(2px);
     transition: transform var(--ui-component-button-anim-time-slow) cubic-bezier(0.3, 0.7, 0.4, 1);
@@ -47,22 +52,22 @@ https://uiverse.io/PriyanshuGupta28/brave-mole-100 */
     width: 100%;
     border-radius: 8px;
     background: linear-gradient(to right,
-            hsl(248, 39%, 39%) 0%,
-            hsl(248, 39%, 49%) 8%,
-            hsl(248, 39%, 39%) 92%,
-            hsl(248, 39%, 29%) 100%);
+            lch(from var(--ui-component-button-color-dark) calc(l + 20) c h) 0%,
+            lch(from var(--ui-component-button-color-dark) calc(l + 10) c h) 15%,
+            var(--ui-component-button-color-dark) 80%,
+            lch(from var(--ui-component-button-color-dark) calc(l - 10) c h) 100%);
 }
 
 .uiComponent .pushable .front {
     display: block;
     position: relative;
     border-radius: 8px;
-    background: hsl(248, 53%, 58%);
-    padding: 8px 12px 6px;
-    color: white;
+    background: var(--ui-component-button-color);
+    padding: 6px 8px 4px;
+    color: var(--ui-component-font-color);
     /* font-weight: 600; */
     /* text-transform: uppercase; */
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1.5px; */
     /* font-size: 1rem; */
     transform: translateY(-4px);
     transition: transform var(--ui-component-button-anim-time-slow) cubic-bezier(0.3, 0.7, 0.4, 1);
