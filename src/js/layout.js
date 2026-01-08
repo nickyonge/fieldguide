@@ -1,5 +1,6 @@
 import { AddClassToDOMs, CreateElement } from "./ui";
 import * as cmp from './components';
+import { OpenURL } from "./lilutils";
 
 let header;
 let main;
@@ -14,13 +15,12 @@ export function InitializeLayout() {
 
 function CreateHeader() {
     header = CreateElement('header');
-    function hi() { console.log("hi"); }
 
     let btn = new cmp.Button('CMS');
     AddClassToDOMs('marginLeftAuto', btn.div);
     header.appendChild(btn);
 
-    btn.onClickCallback = hi;
+    btn.onClickCallback = () => { OpenURL('cms'); };
 
     document.body.appendChild(header);
 }

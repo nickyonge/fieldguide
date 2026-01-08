@@ -89,7 +89,6 @@ export class Button extends BasicComponent {
     #onClick(pointerEvent) {
         pointerEvent.stopPropagation();
         pointerEvent.preventDefault();
-        console.log("on click callback: " + this.onClickCallback);
         if (this.onClickCallback) {
             this.onClickCallback(this);
         } else {
