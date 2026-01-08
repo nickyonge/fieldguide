@@ -14,10 +14,13 @@ export function InitializeLayout() {
 
 function CreateHeader() {
     header = CreateElement('header');
+    function hi() { console.log("hi"); }
 
     let btn = new cmp.Button('CMS');
     AddClassToDOMs('marginLeftAuto', btn.div);
     header.appendChild(btn);
+
+    btn.onClickCallback = hi;
 
     document.body.appendChild(header);
 }

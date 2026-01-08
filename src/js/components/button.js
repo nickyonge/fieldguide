@@ -1,7 +1,7 @@
-import { BasicComponent, TitledComponent } from "./base";
+import { BasicComponent } from "./base";
 import * as ui from '../ui';
 
-export class Button extends TitledComponent {
+export class Button extends BasicComponent {
 
     /** 
      * Get/set the text on this {@linkcode Button}. 
@@ -51,36 +51,45 @@ export class Button extends TitledComponent {
      * @param {(component?:Button) => void} [onClickCallback = undefined]
      */
     constructor(text, onClickCallback) {
+        super();
 
-        super(text, false);
-
-        if (onClickCallback) {
-            this.onClickCallback = onClickCallback;
-        }
-
+        // create html elements 
         this.#button = ui.CreateElementWithClass('button', 'pushable');
         this.#shadow = ui.CreateElementWithClass('span', 'shadow');
         this.#edge = ui.CreateElementWithClass('span', 'edge');
         this.#front = ui.CreateElementWithClass('span', 'front');
         this.#hoverArea = ui.CreateElementWithClass('span', 'hoverArea');
 
+        // assign hierarchy 
         this.#button.appendChild(this.#hoverArea);
         this.#button.appendChild(this.#shadow);
         this.#button.appendChild(this.#edge);
         this.#button.appendChild(this.#front);
         this.div.appendChild(this.#button);
 
-        this.#button.addEventListener('click', this.#onClick);
+        // assign callback 
+        if (onClickCallback) {
+            this.onClickCallback = onClickCallback;
+        }
+
+        // create event listener 
+        this.#onClick.bind(this);
+        this.#button.addEventListener('click',
+            /** @param {PointerEvent} pointerEvent */
+            function (pointerEvent) {
+                this.#onClick(pointerEvent);
+            }.bind(this)
+        );
+
+        // assign text 
         this.text = text;
     }
 
-    /**
-     * on click event 
-     * @param {PointerEvent} event 
-     */
-    #onClick(event) {
-        event.stopPropagation();
-        event.preventDefault();
+    /** on click event @param {PointerEvent} pointerEvent */
+    #onClick(pointerEvent) {
+        pointerEvent.stopPropagation();
+        pointerEvent.preventDefault();
+        console.log("on click callback: " + this.onClickCallback);
         if (this.onClickCallback) {
             this.onClickCallback(this);
         } else {
@@ -88,6 +97,7 @@ export class Button extends TitledComponent {
         }
     }
 
+    /** updates the `innerText` of `Button#front` */
     #updateText() {
         this.#front.innerText = this.text;
     }
