@@ -326,6 +326,81 @@ export const StringNumericDivider = str => {
     // map to array and convert numeric-only values to number 
     return strReg.map(s => /^\d+(?:\.\d+)?$/.test(s) ? Number(s) : s);
 };
+
+/** 
+ * Takes an input string and convert to a number of seconds or milliseconds, 
+ * depending on the value of {@linkcode ms} (default `true`, milliseconds).
+ * - Non-numeric characters are discarded
+ * - If {@linkcode ms} is `true`, milliseconds are returned directly, and seconds 
+ * are multiplied to milliseconds (`"250ms"` returns `250`, `"5s"` returns `5000`) 
+ * - If {@linkcode ms} is `false`, milliseconds divided to seconds, and seconds 
+ * are returned directly (`"250ms"` returns `0.25`, `"5s"` returns `5`) 
+ * - Other numbers are assumed to be format-correct (`"250"` returns `250`)
+ * @param {string} str Input string
+ * @param {boolean} [ms=true] If `true`, time is in milliseconds. If `false`, seconds. Default `true`
+ * @param {number} [fallback=250] Fallback number to return if parsing fails. Default `250` (milliseconds assumed) 
+ * @param {boolean} [preventNegative=true] Cap negative values to zero (eg, so `"-500ms"` returns `0`)? Default `true`
+ * @returns {number}
+ * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/time CSS <time> data type} MDN documentation 
+ */
+export function StringToTime(str, ms = true, fallback = 250, preventNegative = true) {
+    if (!isStringNotBlank(str)) { return fallback; }
+    if (!StringContainsNumeric(str)) {
+        console.warn(`Warning: string "${str}" contains no numbers, can't convert to time, returning fallback ${fallback}`, this);
+        return fallback;
+    }
+    str = str.toLowerCase();
+    if (str.endsWith("ms")) {
+        // milliseconds: parse and return 
+        const num = StringToNumber(str, false, fallback);
+        if (IsNumberInfiniteOrNaN(num)) { return fallback; }
+        if (preventNegative && num < 0) { return 0; }
+        return ms ? num : num * 0.001;
+    } else if (str.endsWith("s")) {
+        // seconds: parse, multiply, then return
+        const num = StringToNumber(str, false, fallback);
+        if (IsNumberInfiniteOrNaN(num)) { return fallback; }
+        if (preventNegative && num < 0) { return 0; }
+        return ms ? num * 1000 : num;
+    } else {
+        // neither, assume ms, parse and return
+        const num = StringToNumber(str, false, fallback);
+        if (IsNumberInfiniteOrNaN(num)) { return fallback; }
+        if (preventNegative && num < 0) { return 0; }
+        return num;
+    }
+}
+/** 
+ * Takes an input string and convert to a number of milliseconds.
+ * - Non-numeric characters are discarded
+ * - Milliseconds are returned directly (`"250ms"` returns `250`)
+ * - Seconds are multiplied to milliseconds (`"5s"` returns `5000`)
+ * - Other numbers are assumed to be format-correct (`"250"` returns `250`)
+ * @param {string} str Input string
+ * @param {number} [fallback=250] Fallback number to return if parsing fails. Default `250`
+ * @param {boolean} [preventNegative=true] Cap negative values to zero (eg, so `"-500ms"` returns `0`)? Default `true`
+ * @returns {number}
+ * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/time CSS <time> data type} MDN documentation 
+ */
+export function StringToTimeMilliseconds(str, fallback = 250, preventNegative = true) {
+    return StringToTime(str, true, fallback, preventNegative);
+}
+/** 
+ * Takes an input string and convert to a number of seconds.
+ * - Non-numeric characters are discarded
+ * - Milliseconds are divided to seconds (`"250ms"` returns `0.25`)
+ * - Seconds are returned directly (`"5s"` returns `5`)
+ * - Other numbers are assumed to be format-correct (`"250"` returns `250`)
+ * @param {string} str Input string
+ * @param {number} [fallback=1] Fallback number to return if parsing fails. Default `1`
+ * @param {boolean} [preventNegative=true] Cap negative values to zero (eg, so `"-500ms"` returns `0`)? Default `true`
+ * @returns {number}
+ * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/time CSS <time> data type} MDN documentation 
+ */
+export function StringToTimeSeconds(str, fallback = 1, preventNegative = true) {
+    return StringToTime(str, false, fallback, preventNegative);
+}
+
 // #endregion Str Num
 
 // #region Str Color 
