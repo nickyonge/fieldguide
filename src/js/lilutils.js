@@ -1958,8 +1958,6 @@ export function OpenURL(url, urlMode = URLMode.Normal) {
     if (isStringNotBlank(url)) {
         // trim url 
         url = url.trim();
-        // check for appending forward slash 
-        url = urlForwardSlash(url);
         /** @param {string} url @returns {string} */
         function urlForwardSlash(url) {
             // check url validity 
@@ -1984,10 +1982,14 @@ export function OpenURL(url, urlMode = URLMode.Normal) {
             let startSearchIndex = Math.max(subdomainStart, lastForwardSlash);
             for (let i = 0; i < _urlSpecialChars.length; i++) {
                 if (url.substring(startSearchIndex).indexOf(_urlSpecialChars[i]) >= 0) {
-                    return url + '/';
+                    // special character found, return unmodified 
+                    return url;
                 }
             }
+            return url + '/';
         }
+        // check for appending forward slash 
+        url = urlForwardSlash(url);
     }
     // open URL with appropriate mode 
     switch (urlMode) {
