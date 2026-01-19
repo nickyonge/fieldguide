@@ -6,11 +6,13 @@
     "scripts": {
         "typecheck": "tsc -p .",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "webpack serve --open",
-        "start:dev": "webpack serve --mode=development --open",
+        "start": "run-p start:byconfig server",
+        "start:byconfig": "webpack serve --open",
+        "start:dev": "webpack serve --mode=development --open && npx http-server dist",
         "start:prod": "webpack serve --mode=production --open",
         "build": "webpack --mode=production",
-        "preview": "npx http-server dist"
+        "preview": "npx http-server dist",
+        "server": "npx decap-server"
     },
     "keywords": [
         "duckpond",
@@ -28,6 +30,7 @@
     "license": "GPL-3.0-only",
     "dependencies": {
         "jquery": "^3.7.1",
+        "npm-run-all2": "^8.0.4",
         "typescript": "^5.9.3"
     },
     "devDependencies": {
