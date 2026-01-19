@@ -1954,6 +1954,35 @@ export const URLMode = Object.freeze({
  * @see {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/Window/open Window.open()} MDN documentation
  */
 export function OpenURL(url, urlMode = URLMode.Normal) {
+    // auto-format URLs
+    if (!isBlank(url)) {
+        // check for appending forward slash 
+        if (!url.endsWith('/')) {
+            // add a forward slash if there is no special chars at the end 
+            let subdomainStart = 0;
+            for (let i = 0; i < _urlRecognizedExtensions.length; i++) {
+                let domain = '.' + _urlRecognizedExtensions[i];
+                let index = url.indexOf(domain);
+                if (index >= 0) {
+                    subdomainStart = index + domain.length;
+                    break;
+                }
+            }
+            // found start of domain, either 0 in the case of eg "relative/", or the end of ".com" in eg "test.com"
+            let lastForwardSlash = url.lastIndexOf('/');
+            let startSearchIndex = Math.max(subdomainStart, lastForwardSlash);
+            let appendForwardSlash = true;
+            for (let i = 0; i < _urlSpecialChars.length; i++) {
+                if (url.substring(startSearchIndex).indexOf(_urlSpecialChars[i]) >= 0) {
+                    appendForwardSlash = false;
+                    break;
+                }
+            }
+            if (appendForwardSlash) {
+                url += '/';
+            }
+        }
+    }
     switch (urlMode) {
         case URLMode.Normal:
             window.open(url, '_self');
@@ -1971,6 +2000,12 @@ export function OpenURL(url, urlMode = URLMode.Normal) {
             break;
     }
 }
+
+/** Array of common URL domains, plus some specific ones to check for */
+const _urlRecognizedExtensions = ['com', 'net', 'org', 'info', 'ca', 'gov', 'co.uk', 'uk', 'de', 'fr', 'br', 'cn', 'in', 'ru', 'ly',
+    'news', 'io', 'ai', 'tech', 'blog', 'bio', 'social', 'shop', 'store', 'online', 'biz', 'xyz', 'studio', 'gallery', 'garden'];
+/** Special characters used in a URL to perform browser tasks */
+const _urlSpecialChars = ['?', '=', '#'];
 
 // #endregion Browser 
 
