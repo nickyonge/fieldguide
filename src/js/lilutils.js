@@ -1955,9 +1955,20 @@ export const URLMode = Object.freeze({
  */
 export function OpenURL(url, urlMode = URLMode.Normal) {
     // auto-format URLs
-    if (!isBlank(url)) {
+    if (isStringNotBlank(url)) {
+        // trim url 
+        url = url.trim();
         // check for appending forward slash 
-        if (!url.endsWith('/')) {
+        url = urlForwardSlash(url);
+        /** @param {string} url @returns {string} */
+        function urlForwardSlash(url) {
+            // check url validity 
+            if (url.endsWith('/')) { return url; }
+            for (let i = 0; i < _urlSpecialChars.length; i++) {
+                if (url === _urlSpecialChars[i]) {
+                    return url;
+                }
+            }
             // add a forward slash if there is no special chars at the end 
             let subdomainStart = 0;
             for (let i = 0; i < _urlRecognizedExtensions.length; i++) {
@@ -1971,18 +1982,14 @@ export function OpenURL(url, urlMode = URLMode.Normal) {
             // found start of domain, either 0 in the case of eg "relative/", or the end of ".com" in eg "test.com"
             let lastForwardSlash = url.lastIndexOf('/');
             let startSearchIndex = Math.max(subdomainStart, lastForwardSlash);
-            let appendForwardSlash = true;
             for (let i = 0; i < _urlSpecialChars.length; i++) {
                 if (url.substring(startSearchIndex).indexOf(_urlSpecialChars[i]) >= 0) {
-                    appendForwardSlash = false;
-                    break;
+                    return url + '/';
                 }
-            }
-            if (appendForwardSlash) {
-                url += '/';
             }
         }
     }
+    // open URL with appropriate mode 
     switch (urlMode) {
         case URLMode.Normal:
             window.open(url, '_self');
